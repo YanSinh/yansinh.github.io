@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Sinh</title>
   <style>
+    /* Reset and Basic Styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -73,6 +74,9 @@
       width: 30%;
       margin-bottom: 2rem;
       transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .card:hover {
@@ -90,6 +94,7 @@
       font-size: 1.1rem;
       color: #7f8c8d;
       margin-bottom: 1.5rem;
+      text-align: center;
     }
 
     .card a {
@@ -107,6 +112,85 @@
       background-color: #2980b9;
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1000; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto; /* 10% from the top and centered */
+      padding: 2rem;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 12px;
+      position: relative;
+      animation: slideDown 0.5s forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Game List Styles */
+    .game-list, .list-section {
+      margin-top: 2rem;
+    }
+
+    .game-item, .list-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .game-item img, .list-item img {
+      width: 50px;
+      height: 50px;
+      margin-right: 1rem;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .game-item h4, .list-item h4 {
+      font-size: 1.5rem;
+      color: #34495e;
+    }
+
     footer {
       background-color: #34495e;
       color: white;
@@ -116,40 +200,14 @@
       font-size: 0.9rem;
     }
 
-    .game-list {
-      display: none;
-      margin-top: 2rem;
-    }
-
-    .game-list ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .game-list li {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .game-list li img {
-      width: 40px;
-      height: 40px;
-      margin-right: 1rem;
-    }
-
-    .game-list li span {
-      font-size: 1.2rem;
-      color: #34495e;
-    }
-
     @media (max-width: 768px) {
       .card {
         width: 100%;
+      }
+
+      .modal-content {
+        width: 90%;
+        margin: 20% auto;
       }
     }
   </style>
@@ -157,7 +215,7 @@
 <body>
 
 <header>
-  <h3>Welcome to My Website</h3>
+  <h2>Welcome to My Website</h2>
 </header>
 
 <div class="container">
@@ -168,31 +226,22 @@
 
   <div class="cards">
     <div class="card">
-      <h3>Sinh images</h3>
+      <h3>Sinh img</h3>
       <p>Browse and explore images curated by Sinh.</p>
       <a href="#sinh-img">View Images</a>
     </div>
 
     <div class="card">
       <h3>Sinh list</h3>
-      <p>Check out the detailed list of students.</p>
-      <a href="#sinh-list">View List</a>
+      <p>Check out the detailed list of items, projects, or students.</p>
+      <a id="view-list">View List</a>
     </div>
 
     <div class="card">
       <h3>Sinh game</h3>
       <p>Play interactive games developed by Sinh.</p>
-      <a onclick="toggleGameList()">Play Now</a>
+      <a id="play-now">Play Now</a>
     </div>
-  </div>
-
-  <!-- Hidden Game List -->
-  <div id="sinh-game" class="game-list">
-    <ul>
-      <li><img src="game-icon.png" alt="Game 1"><span>Game 1</span></li>
-      <li><img src="game-icon.png" alt="Game 2"><span>Game 2</span></li>
-      <li><img src="game-icon.png" alt="Game 3"><span>Game 3</span></li>
-    </ul>
   </div>
 </div>
 
@@ -200,15 +249,93 @@
   <p>&copy; 2024 Sinh. All rights reserved.</p>
 </footer>
 
+<!-- Game Modal Structure -->
+<div id="game-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Not Available Is In Making</h2>
+    <div class="game-list">
+      <div class="game-item">
+        <img src="https://m.media-amazon.com/images/I/41znPjaR48L.png" alt="Game 1 Icon">
+        <h4>2048</h4>
+      </div>
+      <div class="game-item">
+        <img src="https://cdn.pixabay.com/photo/2013/07/13/10/21/rubiks-cube-157058_1280.png" alt="Game 2 Icon">
+        <h4>Cube</h4>
+      </div>
+      <div class="game-item">
+        <img src="https://www.svgrepo.com/show/510273/tic-tac-toe.svg" alt="Game 3 Icon">
+        <h4>Tic Tac Toe</h4>
+      </div>
+      <!-- Add more games as needed -->
+    </div>
+  </div>
+</div>
+
+<!-- List Modal Structure -->
+<div id="list-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Sinh List</h2>
+    <div class="list-section">
+      <div class="list-item">
+        <img src="https://i.insider.com/565b1cf6dd08955b3f8b4594?width=960&format=jpeg" alt="List Item 1 Icon">
+        <h4>Admin Not Allowed</h4>
+      </div>
+      <div class="list-item">
+        <img src="https://saasalerts.com/wp-content/uploads/2024/03/bruteforce-1.jpg" alt="List Item 2 Icon">
+        <h4>Admin Not Allowed</h4>
+      </div>
+      <div class="list-item">
+        <img src="https://9to5mac.com/wp-content/uploads/sites/6/2023/04/ai-cracks-passwords-this-fast.jpg?quality=82&strip=all&w=1600" alt="List Item 3 Icon">
+        <h4>Admin Not Allowed</h4>
+      </div>
+      <!-- Add more list items as needed -->
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript to Handle Modals -->
 <script>
-  function toggleGameList() {
-    const gameList = document.getElementById('sinh-game');
-    if (gameList.style.display === 'none' || gameList.style.display === '') {
-      gameList.style.display = 'block';
-    } else {
-      gameList.style.display = 'none';
-    }
+  // Get elements for Game Modal
+  const playNowBtn = document.getElementById('play-now');
+  const gameModal = document.getElementById('game-modal');
+  const closeGameBtn = gameModal.querySelector('.close-btn');
+
+  // Get elements for List Modal
+  const viewListBtn = document.getElementById('view-list');
+  const listModal = document.getElementById('list-modal');
+  const closeListBtn = listModal.querySelector('.close-btn');
+
+  // Function to open modal
+  function openModal(modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
   }
+
+  // Function to close modal
+  function closeModal(modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+  }
+
+  // Event listeners for Game Modal
+  playNowBtn.addEventListener('click', () => openModal(gameModal));
+  closeGameBtn.addEventListener('click', () => closeModal(gameModal));
+
+  // Event listeners for List Modal
+  viewListBtn.addEventListener('click', () => openModal(listModal));
+  closeListBtn.addEventListener('click', () => closeModal(listModal));
+
+  // Close modals when clicking outside the modal content
+  window.addEventListener('click', (event) => {
+    if (event.target === gameModal) {
+      closeModal(gameModal);
+    }
+    if (event.target === listModal) {
+      closeModal(listModal);
+    }
+  });
 </script>
 
 </body>
