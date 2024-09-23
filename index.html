@@ -1,342 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>    
+<head>
   <link rel="icon" href="https://yansinh.github.io/csm/img/sinh.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Sinh</title>
-  <style>
-    /* Reset and Basic Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      background-color: #34495e;
-      color: white;
-      padding: 2rem 0;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    header h1 {
-      font-size: 3.5rem;
-      letter-spacing: 2px;
-      margin: 0;
-    }
-
-    .container {
-      padding: 3rem 1rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      flex: 1;
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .intro h2 {
-      font-size: 2.5rem;
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-
-    .intro p {
-      font-size: 1.3rem;
-      color: #7f8c8d;
-    }
-
-    .cards {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .card {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-      width: 30%;
-      margin-bottom: 2rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .card h3 {
-      font-size: 1.8rem;
-      color: #34495e;
-      margin-bottom: 1rem;
-    }
-
-    .card p {
-      font-size: 1.1rem;
-      color: #7f8c8d;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .card a {
-      display: inline-block;
-      padding: 12px 24px;
-      background-color: #3498db;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      transition: background-color 0.3s;
-      cursor: pointer;
-    }
-
-    .card a:hover {
-      background-color: #2980b9;
-    }
-
-    /* Modal Styles */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed;
-      z-index: 1000; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 10% auto; /* 10% from the top and centered */
-      padding: 2rem;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 600px;
-      border-radius: 12px;
-      position: relative;
-      animation: slideDown 0.5s forwards;
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    /* Game List Styles */
-    .game-list, .list-section {
-      margin-top: 2rem;
-    }
-
-    .game-item, .list-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .game-item img, .list-item img {
-      width: 50px;
-      height: 50px;
-      margin-right: 1rem;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-
-    .game-item h4, .list-item h4 {
-      font-size: 1.5rem;
-      color: #34495e;
-    }
-
-    footer {
-      background-color: #34495e;
-      color: white;
-      text-align: center;
-      padding: 1.5rem 0;
-      margin-top: auto;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 768px) {
-      .card {
-        width: 100%;
-      }
-
-      .modal-content {
-        width: 90%;
-        margin: 20% auto;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-  <h2>Welcome to My Website</h2>
-</header>
-
-<div class="container">
-  <div class="intro">
-    <h2>Explore My Work</h2>
-    <p>Here's a modern design that showcases projects and more with a sleek, professional style.</p>
+  <header>
+    <h2>Welcome to My Website</h2>
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle Dark Mode">🌙</button>
+  </header>
+  <div class="container">
+    <section class="intro">
+      <h2>Explore the Features</h2>
+      <p>Select an option below to get started.</p>
+    </section>
+    <section class="cards">
+      <!-- Sinh Img Card -->
+      <div class="card" id="sinh-img">
+        <h3>Sinh Img</h3>
+        <p>Browse and explore images curated by Sinh.</p>
+        <button onclick="openModal('image-modal')">View Gallery</button>
+      </div>
+      <div class="card" id="sinh-list">
+        <h3>Sinh List</h3>
+        <p>Check out the detailed list of items projects.</p>
+        <button onclick="openModal('list-modal')">View List</button>
+      </div>
+      <div class="card" id="sinh-game">
+        <h3>Game</h3>
+        <p>Play interactive games developed by Sinh.</p>
+        <button onclick="openModal('game-modal')">Play Now</button>
+      </div>
+    </section>
   </div>
-
-  <div class="cards">
-    <div class="card">
-      <h3>Sinh img</h3>
-      <p>Browse and explore images curated by Sinh.</p>
-      <a href="#sinh-img">View Images</a>
-    </div>
-
-    <div class="card">
-      <h3>Sinh list</h3>
-      <p>Check out the detailed list of items, projects, or students.</p>
-      <a id="view-list">View List</a>
-    </div>
-
-    <div class="card">
-      <h3>Sinh game</h3>
-      <p>Play interactive games developed by Sinh.</p>
-      <a id="play-now">Play Now</a>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <p>&copy; 2024 Sinh. All rights reserved.</p>
-</footer>
-
-<!-- Game Modal Structure -->
-<div id="game-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h3>Unavailable is in making</h3>
-    <div class="game-list">
-      <div class="game-item">
-        <img src="https://m.media-amazon.com/images/I/41znPjaR48L.png" alt="Game 1 Icon">
-        <h4>Game 2048</h4>
+  <footer>
+    <p>&copy; 2024 Sinh. All rights reserved.</p>
+  </footer>
+  <div id="image-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('image-modal')">&times;</span>
+      <h2>Image Gallery</h2>
+      <div class="image-gallery">
+        <img src="https://www.pixelstalk.net/wp-content/uploads/2016/08/Best-Amazing-Images-For-Desktop.jpg" alt="nothing" onclick="openLightbox(this.src, this.alt)">
+        <img src="https://i.pinimg.com/236x/fa/b8/49/fab849946f062b16c68c3b4835a25f70.jpg" alt="sigma" onclick="openLightbox(this.src, this.alt)">
+        <img src="https://img.freepik.com/free-photo/broken-heart-concept_23-2151260886.jpg" alt="fail in love" onclick="openLightbox(this.src, this.alt)">
+        <img src="https://wp.scoopwhoop.com/wp-content/uploads/2023/08/MV5BODRmZDVmNzUtZDA4ZC00NjhkLWI2M2UtN2M0ZDIzNDcxYThjL2ltYWdlXkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_FMjpg_UX1000_.jpeg?w=691" alt="anime" onclick="openLightbox(this.src, this.alt)">
       </div>
-      <div class="game-item">
-        <img src="https://cdn.pixabay.com/photo/2013/07/13/10/21/rubiks-cube-157058_1280.png" alt="Game 2 Icon">
-        <h4>The Cube</h4>
-      </div>
-      <div class="game-item">
-        <img src="https://www.svgrepo.com/show/510273/tic-tac-toe.svg" alt="Game 3 Icon">
-        <h4>Tic Tac Toe</h4>
-      </div>
-      <!-- Add more games as needed -->
     </div>
   </div>
-</div>
-
-<!-- List Modal Structure -->
-<div id="list-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Sinh List</h2>
-    <div class="list-section">
-      <div class="list-item">
-        <img src="https://i.insider.com/565b1cf6dd08955b3f8b4594?width=960&format=jpeg" alt="List Item 1 Icon">
-        <h4>Unavailable</h4>
+  <div id="list-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('list-modal')">&times;</span>
+      <h2>List</h2>
+      <div class="list-section">
+        <div class="list-item">
+          <img src="https://9to5mac.com/wp-content/uploads/sites/6/2023/04/ai-cracks-passwords-this-fast.jpg?quality=82&strip=all&w=1600" alt="crack">
+          <h4>brute force <span style="color:red">•</span></h4>
+        </div>
+        <div class="list-item">
+          <img src="https://nameshield.com/wp-content/uploads/2021/06/DDoS-attaque-1024x1003.png" alt="ddos">
+          <h4>ddos attack <span style="color:red">•</span></h4>
+        </div>
+        <div class="list-item">
+          <img src="https://www.softactivity.com/wp-content/uploads/phishing_attack_1400.jpg" alt="phishing">
+          <h4>phishing attack <span style="color:red">•</span></h4>
+        </div>
       </div>
-      <div class="list-item">
-        <img src="https://saasalerts.com/wp-content/uploads/2024/03/bruteforce-1.jpg" alt="List Item 2 Icon">
-        <h4>Unavailable</h4>
-      </div>
-      <div class="list-item">
-        <img src="https://9to5mac.com/wp-content/uploads/sites/6/2023/04/ai-cracks-passwords-this-fast.jpg?quality=82&strip=all&w=1600" alt="List Item 3 Icon">
-        <h4>Unavailable</h4>
-      </div>
-      <!-- Add more list items as needed -->
     </div>
   </div>
-</div>
+  <div id="game-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('game-modal')">&times;</span>
+      <h2>Available Game</h2>
+      <div class="game-list">
+<a href="#">
+        <div class="game-item">
+          <img src="https://m.media-amazon.com/images/I/41znPjaR48L.png" alt="Mey">
+          <h4>Game 2048 <span style="color:red">•</span></h4>
+        </div>
+</a>
+<a href="#">
+        <div class="game-item">
+          <img src="https://www.svgrepo.com/show/510273/tic-tac-toe.svg" alt="Mey">
+          <h4>Tic Tac Toe <span style="color:red">•</span></h4>
+        </div>
+</a>
+<a href="TheCube/index.html">
+        <div class="game-item">
+          <img src="https://cdn.pixabay.com/photo/2013/07/13/10/21/rubiks-cube-157058_1280.png" alt="Mey">
+          <h4>The Cube <span style="color:#0dd012">•</span></h4>
+        </div>
+</a>
+      </div>
+    </div>
+  </div>
 
-<!-- JavaScript to Handle Modals -->
-<script>
-  // Get elements for Game Modal
-  const playNowBtn = document.getElementById('play-now');
-  const gameModal = document.getElementById('game-modal');
-  const closeGameBtn = gameModal.querySelector('.close-btn');
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="modal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeModal('lightbox')">&times;</button>
+      <img src="" alt="Enlarged Image">
+    </div>
+  </div>
 
-  // Get elements for List Modal
-  const viewListBtn = document.getElementById('view-list');
-  const listModal = document.getElementById('list-modal');
-  const closeListBtn = listModal.querySelector('.close-btn');
-
-  // Function to open modal
-  function openModal(modal) {
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  }
-
-  // Function to close modal
-  function closeModal(modal) {
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restore scrolling
-  }
-
-  // Event listeners for Game Modal
-  playNowBtn.addEventListener('click', () => openModal(gameModal));
-  closeGameBtn.addEventListener('click', () => closeModal(gameModal));
-
-  // Event listeners for List Modal
-  viewListBtn.addEventListener('click', () => openModal(listModal));
-  closeListBtn.addEventListener('click', () => closeModal(listModal));
-
-  // Close modals when clicking outside the modal content
-  window.addEventListener('click', (event) => {
-    if (event.target === gameModal) {
-      closeModal(gameModal);
-    }
-    if (event.target === listModal) {
-      closeModal(listModal);
-    }
-  });
-</script>
-
+  <!-- ======================= External JavaScript ======================= -->
+  <script src="script.js"></script>
 </body>
 </html>
