@@ -1,0 +1,174 @@
+:root {
+    --color-palette-1: #97ceb4;
+    --color-palette-2: rgb(255, 238, 173);
+    --color-palette-3: #D9534F;
+    --color-palette-4: #FFAD60;
+    --color-palette-5: rgb(56, 29, 42); /* #104547;*/
+    --color-palette-hilight1: rgb(32, 197, 120);
+    --color-palette-1c: var(--color-palette-5); /* contrast color */
+    --color-palette-2c: var(--color-palette-5);
+    --color-palette-3c: var(--color-palette-2);
+    --color-palette-4c: var(--color-palette-5);
+    --color-palette-5c: var(--color-palette-2);
+    --color-palette-2-r: 56;
+    --color-palette-2-g: 29;
+    --color-palette-2-b: 42;
+    --color-game-btn-bg: var(--color-palette-5);
+    --color-game-btn-fg: var(--color-palette-5c);
+    --color-game-btn-highlight: var(--color-palette-3);
+    --color-bg1: var(--color-palette-1);
+    --color-text1: var(--color-palette-1c);
+    --color-bg2: var(--color-palette-2);
+    --color-bg3: var(--color-palette-3);
+    --color-player1-bg: var(--color-palette-3);
+    --color-player1-fg: var(--color-palette-3c);
+    --color-player2-bg: var(--color-palette-4);
+    --color-player2-fg: var(--color-palette-4c);
+    --color-player-current-fg: var(--color-palette-2c);
+    --color-player-current-bg: var(--color-palette-2);
+    --color-player-current-border: var(--color-palette-4);
+    --color-winning-square-bg: var(--color-palette-1);
+    --color-winning-square-fg: var(--color-palette-1c);
+    --color-border1: var(--color-palette-2);
+    --color-gameboard-lines: var(--color-palette-5);
+    --section-shadow: 0 0px 9px rgb(0, 0, 0, 0.333);
+    --button-shadow: 0px 0px 9px rgb(0, 0, 0, 0.333);
+    --square-shadow: inset 0px 0px 9px rgb(0, 0, 0, 0.333);
+    --square-text-shadow: 0px 0px 9px rgb(0, 0, 0, 0.333);
+    --name-box-shadow: inset 0px 0px 9px rgb(0, 0, 0, 0.333);
+    --name-text-shadow: 0px 0px 9px rgb(0, 0, 0, 0.333);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background: var(--color-bg1);
+    margin: 0;
+    min-width: 360px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: min(95vw, 65vh);
+    min-width: 350px;
+    max-width: 100vw;
+    color: var(--color-text1);
+}
+
+select {
+    background: var(--color-bg2);
+    padding: 0 5px;
+    font-size: 1em;
+    border-radius: 5px;
+    text-align: center;    
+}
+
+select:hover {
+    box-shadow: var(--button-shadow);
+}
+
+.game-controls {
+    display: flex;
+}
+
+.game-controls input {
+    margin-left: 20px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background: var(--color-game-btn-bg);
+    color: var(--color-game-btn-fg);
+    font-size: 1em;
+    border: 1px solid var(--color-border1);
+    box-shadow: var(--button-shadow);
+}
+
+.game-controls input:hover {
+    background: var(--color-game-btn-highlight);
+}
+
+.game-controls input:active {
+    transition-duration: 0.01s;    
+    transform:scale(0.95, 0.95);
+}
+
+.gameboard-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(95vw, 65vh);
+    height: min(95vw, 65vh);
+    min-width: 350px;
+    max-width: 100vw;
+    background: var(--color-bg1);
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    box-shadow: var(--section-shadow);
+}
+
+.gameboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;    
+}
+
+.gameboard__row {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.gameboard__square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background: var(--color-bg2);
+    box-sizing: border-box;
+    border: 3px solid var(--color-gameboard-lines);
+    box-shadow: var(--square-shadow);
+    text-shadow: var(--square-text-shadow);
+}
+
+.gameboard__square--x {
+    color: var(--color-player1-fg);
+    background: var(--color-player1-bg);
+}
+
+.gameboard__square--o {
+    color: var(--color-player2-fg);
+    background: var(--color-player2-bg);
+}
+
+.gameboard__square--winner {
+    background: var(--color-winning-square-bg);
+    color: var(--color-winning-square-fg);
+}
+
+.footer {
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 20px auto;
+    padding: 5px 0;
+    border-top: 1px solid rgba(60, 60, 60, 0.4);
+    color: var(--color-palette-5);
+}
+
+.footer i {
+    color: var(--color-palette-5);
+}
