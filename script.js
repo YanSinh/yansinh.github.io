@@ -130,3 +130,13 @@ document.addEventListener('keydown', (event) => {
     closeModal('lightbox');
   }
 });
+
+// Footer
+
+document.addEventListener('DOMContentLoaded', () => {
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+});
+
