@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+	<link rel="icon" href="https://yansinh.github.io/csm/img/sinh.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Sinh</title>
+</head>
+
+<body>
+    <!-- Game -->
+    <div id="app">
+        <div id="logo">
+            <img src="./img/logo-02.png" alt="logo">
+        </div>
+        <div id="container" class="absolute">
+            <div id="start" class="column">
+                <p class="message pre">
+1. ប្រើ W, A, S, D ដើម្បីគ្រប់គ្រងយានអវកាស ហើយចុច Space ដើម្បីបាញ់បង្ហោះ។
+ 2. តម្លៃប្រេងឥន្ធនៈដំបូងគឺ 15 ហើយថយចុះ 1 ពិន្ទុរៀងរាល់វិនាទី នៅពេលដែលតម្លៃប្រេងឥន្ធនៈឡើងដល់ 0 ហ្គេមនឹងបញ្ចប់។
+ 3. ការប៉ះដបឥន្ធនៈដែលបានទម្លាក់អាចកើនឡើង 15 ពិន្ទុជាមួយនឹងតម្លៃអតិបរមា 30 ពិន្ទុ។
+ 4. បុកយានអវកាសសត្រូវបន្ថែម 5 ពិន្ទុ។ ភពផែនដីត្រូវវាយពីរដង ដែលបន្ថែម ១០ ពិន្ទុ។ 10 ពិន្ទុត្រូវបានកាត់សម្រាប់ការវាយសត្រូវជាមិត្ត។
+ 5. 15 ពិន្ទុនៃឥន្ធនៈនឹងត្រូវបាត់បង់ប្រសិនបើវាប៉ះសត្រូវហើយ 10 ពិន្ទុនឹងត្រូវបានកាត់ប្រសិនបើវាប៉ះភាគីមិត្តភាព។
+ 6. ហ្គេមអនុញ្ញាតឱ្យមានចំណុចអវិជ្ជមាន។
+ 7. ចុច P ដើម្បីផ្អាកហ្គេម និង M ដើម្បីបិទ។
+ ចាប់ផ្តើមសង្រ្គាមរវាងផ្កាយរបស់អ្នក!
+                </p>
+                <button id="start-btn" class="btn">
+                    <p>ចាប់ផ្តើមហ្គេម</p>
+                    <p>កំពុង​ផ្ទុក...</p>
+                </button>
+            </div>
+            <div id="play" class="absolute">
+                <canvas id="canvas" class="absolute"></canvas>
+                <div class="content absolute">
+                    <div class="header">
+                        <ul class="info">
+                            <li>
+                                <img src="./img/time3.png" alt="time">
+                                <span id="time">00</span>
+                            </li>
+                            <li>
+                                <img src="./img/fuel2.png" alt="fuel">
+                                <span id="fuel">00</span>
+                            </li>
+                            <li>
+                                <img src="./img/score.png" alt="score">
+                                <span id="score">00</span>
+                            </li>
+                            <li>
+                                <img src="./img/playerBullet.png" alt="score">
+                                <span id="shoot">00</span>
+                            </li>
+
+                        </ul>
+                        <ul class="option">
+                            <li id="game-font-size-add">
+                                <img class="pause" src="./img/a+.png" alt="time">
+                            </li>
+                            <li id="game-font-size-reduce">
+                                <img class="pause" src="./img/a-.png" alt="time">
+                            </li>
+                            <li id="game-mute-btn">
+                                <img class="pause" src="./img/mute.png" alt="time">
+                                <img class="pause" src="./img/speaker.png" alt="time">
+                            </li>
+                            <li id="game-pause-btn">
+                                <img class="pause" src="./img/play.png" alt="time">
+                                <img class="pause" src="./img/pause.png" alt="time">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="over" class="column absolute">
+                <div class="game-data">
+                    <p class="message">
+                        <span>
+                            <img src="./img/time3.png" alt="time">
+                        </span>
+                        <span>
+                            --
+                        </span>
+                        <span class="time">00</span>
+                    </p>
+                    <p class="message">
+                        <span>
+                            <img src="./img/score.png" alt="score">
+                        </span>
+                        <span>
+                            --
+                        </span>
+                        <span class="score">00</span>
+                    </p>
+                    <p class="message">
+                        <span>
+                            <img src="./img/playerBullet.png" alt="score">
+                        </span>
+                        <span>
+                            --
+                        </span>
+                        <span class="shoot">00</span>
+                    </p>
+                </div>
+                <input type="text" id="name" placeholder="សូមបញ្ចូលឈ្មោះរបស់អ្នក។" />
+                <button id="submit-btn" class="btn" disabled>
+                    បន្តហ្គេម
+                </button>
+            </div>
+            <div id="rank" class="column absolute">
+                <table class="scroll">
+                    <thead>
+                        <tr>
+                            <th>ចំណាត់ថ្នាក់</th>
+                            <th>ឈ្មោះ</th>
+                            <th>ប្រភាគ</th>
+                            <th>ចំនួនវិនាទី</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <button id="restart-btn" class="btn">
+                    ត្រឡប់ទៅការចាប់ផ្តើម
+                </button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <span>© 2024 Sinh. All rights reserved.
+            
+        </span>
+    </footer>
+    <script src="js/config/config.js"></script>
+    <script src="js/utils/utils.js"></script>
+    <script src="js/utils/res.js"></script>
+    <script src="js/class/scene.js"></script>
+    <script src="js/class/cooldown.js"></script>
+    <script src="js/class/element.js"></script>
+    <script src="js/class/animation.js"></script>
+    <script src="js/class/plane.js"></script>
+    <script src="js/class/bullet.js"></script>
+    <script src="js/class/player.js"></script>
+    <script src="js/class/enemy.js"></script>
+    <script src="js/class/meteorite.js"></script>
+    <script src="js/class/friend.js"></script>
+    <script src="js/class/star.js"></script>
+    <script src="js/class/fuel.js"></script>
+    <script src="js/scenes/start.js"></script>
+    <script src="js/scenes/play.js"></script>
+    <script src="js/scenes/over.js"></script>
+    <script src="js/scenes/rank.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
