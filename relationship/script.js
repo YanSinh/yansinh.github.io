@@ -19,11 +19,11 @@ function saveData() {
     const timeUnit = document.getElementById('timeUnit').value;
 
     if (!name) {
-        alert("Please enter a name.");
+        alert("សូមបញ្ចូលឈ្មោះ។");
         return;
     }
     if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dateInput)) {
-        alert("Please enter the date in DD/MM/YYYY format.");
+        alert("សូមបញ្ចូលកាលបរិច្ឆេទក្នុងទម្រង់ DD/MM/YYYY។");
         return;
     }
     
@@ -46,13 +46,13 @@ function displaySavedInfo(id, name, date, timeUnit) {
     entryDiv.classList.add('entry');
 
     const entryTimeAgo = calculateTimeAgo(date, timeUnit);
-    entryDiv.innerHTML = `${name} <span class="time-ago">${entryTimeAgo} ${timeUnit} ago</span>`;
+    entryDiv.innerHTML = `${name} <span class="time-ago">${entryTimeAgo} ${timeUnit} កន្លងទៅ</span>`;
 
     const trashButton = document.createElement('button');
     trashButton.classList.add('trash-icon');
     trashButton.innerHTML = '🗑️';
     trashButton.onclick = () => {
-        if (confirm(`Do you want to remove ${name}'s entry?`)) {
+        if (confirm(`តើអ្នកចង់លុបធាតុរបស់ ${name} ទេ?`)) {
             removeData(id);
         }
     };
