@@ -72,7 +72,7 @@ function removeData(id) {
     savedData.forEach(entry => displaySavedInfo(entry.id, entry.name, entry.date, entry.timeUnit));
 }
 
-// Calculate "time ago" based on the chosen unit in Khmer
+// Calculate "time ago" based on the chosen unit and display in Khmer
 function calculateTimeAgo(savedDate, timeUnit) {
     const [day, month, year] = savedDate.split('/').map(Number);
     const savedDateObj = new Date(year, month - 1, day);
@@ -80,17 +80,22 @@ function calculateTimeAgo(savedDate, timeUnit) {
 
     const timeDiff = currentDate - savedDateObj;
     let timeAgo = '';
+    let unitInKhmer = ''; // Variable to store the Khmer translation of the time unit
 
     if (timeUnit === "days") {
         timeAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Days
-        return `${timeAgo} ថ្ងៃ`;
+        unitInKhmer = "ថ្ងៃ";
     } else if (timeUnit === "months") {
         const months = (currentDate.getFullYear() - savedDateObj.getFullYear()) * 12 
                        + (currentDate.getMonth() - savedDateObj.getMonth());
-        return `${months} ខែ`;
+        timeAgo = months;
+        unitInKhmer = "ខែ";
     } else if (timeUnit === "years") {
         const years = currentDate.getFullYear() - savedDateObj.getFullYear();
-        return `${years} ឆ្នាំ`;
+        timeAgo = years;
+        unitInKhmer = "ឆ្នាំ";
     }
+
+    return `${timeAgo} ${unitInKhmer}`;
 }
 
