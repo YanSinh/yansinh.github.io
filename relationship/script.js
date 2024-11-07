@@ -44,22 +44,35 @@ function displaySavedInfo(id, name, date, timeUnit) {
 
     const entryDiv = document.createElement('div');
     entryDiv.classList.add('entry');
+    entryDiv.setAttribute('data-id', id); // Set data attribute for easy reference
 
-    // Calculate time ago and translate time unit to Khmer
     const entryTimeAgo = calculateTimeAgo(date, timeUnit);
     entryDiv.innerHTML = `${name} <span class="time-ago">${entryTimeAgo} កន្លងទៅ</span>`;
 
+    // Trash button to delete entry
     const trashButton = document.createElement('button');
     trashButton.classList.add('trash-icon');
     trashButton.innerHTML = '🗑️';
     trashButton.onclick = () => {
         if (confirm(`តើអ្នកចង់លុបធាតុរបស់ ${name} ទេ?`)) {
-            removeData(id);
+            removeData(id); // Call removeData with the entry's ID
         }
     };
 
     entryDiv.appendChild(trashButton);
     savedInfoContainer.appendChild(entryDiv);
+}
+
+// Remove an entry from localStorage and update display
+function removeData(id) {
+    let savedData = JSON.parse(localStorage.getItem('savedData')) || [];
+    savedData = savedData.filter(entry => entry.id !== id); // Remove entry by ID
+    localStorage.setItem('savedData', JSON.stringify(savedData));
+
+    // Clear and refresh the display
+    const savedInfoContainer = document.getElementById('savedInfoContainer');
+    savedInfoContainer.innerHTML = ""; // Clear current display
+    savedData.forEach(entry => displaySavedInfo(entry.id, entry.name, entry.date, entry.timeUnit));
 }
 
 // Calculate "time ago" based on the chosen unit and display in Khmer
@@ -88,6 +101,4 @@ function calculateTimeAgo(savedDate, timeUnit) {
     }
 
     return `${timeAgo} ${unitInKhmer}`;
-}
-
-
+        }
