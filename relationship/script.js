@@ -72,22 +72,25 @@ function removeData(id) {
     savedData.forEach(entry => displaySavedInfo(entry.id, entry.name, entry.date, entry.timeUnit));
 }
 
-// Calculate "time ago" based on the chosen unit
+// Calculate "time ago" based on the chosen unit in Khmer
 function calculateTimeAgo(savedDate, timeUnit) {
     const [day, month, year] = savedDate.split('/').map(Number);
     const savedDateObj = new Date(year, month - 1, day);
     const currentDate = new Date();
 
     const timeDiff = currentDate - savedDateObj;
+    let timeAgo = '';
 
     if (timeUnit === "days") {
-        return Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Days
+        timeAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Days
+        return `${timeAgo} ថ្ងៃ`;
     } else if (timeUnit === "months") {
         const months = (currentDate.getFullYear() - savedDateObj.getFullYear()) * 12 
                        + (currentDate.getMonth() - savedDateObj.getMonth());
-        return months;
+        return `${months} ខែ`;
     } else if (timeUnit === "years") {
         const years = currentDate.getFullYear() - savedDateObj.getFullYear();
-        return years;
+        return `${years} ឆ្នាំ`;
     }
 }
+
