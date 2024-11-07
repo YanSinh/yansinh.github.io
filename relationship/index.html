@@ -1,32 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relationship Date Tracker</title>
+    <title>Sinh</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script> <!-- Link to your external JavaScript file -->
 </head>
 <body>
     <div class="container">
-        <h2>Relationship Date Tracker</h2>
-        <p>Track memorable dates and see how long it's been since those special moments with your loved one!</p>
+        <h2>កម្មវិធីតាមដានកាលបរិច្ឆេទទំនាក់ទំនង</h2>
+        <p>តាមដានកាលបរិច្ឆេទដែលមិនអាចបំភ្លេចបាន និងមើលថាតើវាមានរយៈពេលប៉ុន្មានចាប់តាំងពីគ្រាពិសេសទាំងនោះជាមួយមនុស្សជាទីស្រលាញ់របស់អ្នក!</p>
         
         <div class="input-group">
-            <input type="text" id="nameInput" placeholder="Enter partner's name" maxlength="50" required>
+            <input type="text" id="nameInput" placeholder="បញ្ចូលឈ្មោះដៃគូ" maxlength="50" required>
             <input type="text" id="dateInput" placeholder="DD/MM/YYYY" maxlength="10" required>
 
             <select id="timeUnit">
-                <option value="days">Days</option>
-                <option value="months">Months</option>
-                <option value="years">Years</option>
+                <option value="days">ថ្ងៃ</option>
+                <option value="months">ខែ</option>
+                <option value="years">ឆ្នាំ</option>
             </select>
             
             <button onclick="saveData()">Save Date</button>
         </div>
 
         <div id="savedInfoContainer" class="saved-info">
-            <p style="color: #888; font-style: italic;">Your saved dates will appear here.</p>
+            <p style="color: #888; font-style: italic;">កាលបរិច្ឆេទដែលអ្នកបានរក្សាទុកនឹងបង្ហាញនៅទីនេះ។</p>
         </div>
     </div>
 </body>
