@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Date Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script> <!-- Link to your external JavaScript file -->
+</head>
+<body>
+    <div class="container">
+        <h2>Relationship Date Tracker</h2>
+        <p>Track memorable dates and see how long it's been since those special moments with your loved one!</p>
+        
+        <div class="input-group">
+            <input type="text" id="nameInput" placeholder="Enter partner's name" maxlength="50" required>
+            <input type="text" id="dateInput" placeholder="DD/MM/YYYY" maxlength="10" required>
+
+            <select id="timeUnit">
+                <option value="days">Days</option>
+                <option value="months">Months</option>
+                <option value="years">Years</option>
+            </select>
+            
+            <button onclick="saveData()">Save Date</button>
+        </div>
+
+        <div id="savedInfoContainer" class="saved-info">
+            <p style="color: #888; font-style: italic;">Your saved dates will appear here.</p>
+        </div>
+    </div>
+</body>
+</html>

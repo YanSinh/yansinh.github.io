@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ffffff; /* Set your desired background color here */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* ... rest of your existing styles ... */
+
+.container {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    /*box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);*/
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+    transition: transform 0.3s;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 26px;
+    color: #ff6b6b;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ff6b6b;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #ff9a9e;
+    box-shadow: 0 0 10px rgba(255, 106, 106, 0.4);
+}
+
+select {
+    appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b6b"%3E%3Cpath d="M7 10l5 5 5-5H7z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+}
+
+button {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #ff4c4c;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.saved-info {
+    margin-top: 25px;
+    font-size: 18px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.saved-info div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border: 1px solid #ff9a9e;
+    border-radius: 8px;
+    background-color: #fff4f5;
+    transition: background-color 0.3s;
+}
+
+.saved-info div:hover {
+    background-color: rgba(255, 115, 115, 0.15);
+}
+
+.time-ago {
+    font-weight: bold;
+    color: #ff6b6b;
+    font-size: 16px;
+}
+
+.trash-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff6b6b;
+    font-size: 20px;
+    margin-left: 10px;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.trash-icon:hover {
+    color: #ff4c4c;
+    transform: scale(1.1);
+}
+
+@media (max-width: 420px) {
+    .container {
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .saved-info div {
+        font-size: 16px;
+    }
+}
