@@ -13,6 +13,7 @@
         <h2>កម្មវិធីតាមដានកាលបរិច្ឆេទទំនាក់ទំនង</h2>
         <p>តាមដានកាលបរិច្ឆេទដែលមិនអាចបំភ្លេចបាន និងមើលថាតើវាមានរយៈពេលប៉ុន្មានចាប់តាំងពីគ្រាពិសេសទាំងនោះជាមួយមនុស្សជាទីស្រលាញ់របស់អ្នក!</p>
         
+        <!-- Input Group -->
         <div class="input-group">
             <input type="text" id="nameInput" placeholder="បញ្ចូលឈ្មោះដៃគូ" maxlength="50" required>
             <input type="text" id="dateInput" placeholder="DD/MM/YYYY" maxlength="10" required>
@@ -23,12 +24,14 @@
                 <option value="years">ឆ្នាំ</option>
             </select>
             
-            <button onclick="saveData()">Save Date</button>
+            <button onclick="saveData()">រក្សាទុក</button>
         </div>
 
+        <!-- Saved Info Container -->
         <div id="savedInfoContainer" class="saved-info">
             <p style="color: #888; font-style: italic;">កាលបរិច្ឆេទដែលអ្នកបានរក្សាទុកនឹងបង្ហាញនៅទីនេះ។</p>
         </div>
     </div>
 </body>
 </html>
+
