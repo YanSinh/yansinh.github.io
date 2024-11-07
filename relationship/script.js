@@ -45,8 +45,9 @@ function displaySavedInfo(id, name, date, timeUnit) {
     const entryDiv = document.createElement('div');
     entryDiv.classList.add('entry');
 
+    // Calculate time ago and translate time unit to Khmer
     const entryTimeAgo = calculateTimeAgo(date, timeUnit);
-    entryDiv.innerHTML = `${name} <span class="time-ago">${entryTimeAgo} ${timeUnit} កន្លងទៅ</span>`;
+    entryDiv.innerHTML = `${name} <span class="time-ago">${entryTimeAgo} កន្លងទៅ</span>`;
 
     const trashButton = document.createElement('button');
     trashButton.classList.add('trash-icon');
@@ -61,17 +62,6 @@ function displaySavedInfo(id, name, date, timeUnit) {
     savedInfoContainer.appendChild(entryDiv);
 }
 
-// Remove an entry from localStorage and update display
-function removeData(id) {
-    let savedData = JSON.parse(localStorage.getItem('savedData')) || [];
-    savedData = savedData.filter(entry => entry.id !== id); // Remove entry by ID
-    localStorage.setItem('savedData', JSON.stringify(savedData));
-
-    const savedInfoContainer = document.getElementById('savedInfoContainer');
-    savedInfoContainer.innerHTML = ""; // Clear current display
-    savedData.forEach(entry => displaySavedInfo(entry.id, entry.name, entry.date, entry.timeUnit));
-}
-
 // Calculate "time ago" based on the chosen unit and display in Khmer
 function calculateTimeAgo(savedDate, timeUnit) {
     const [day, month, year] = savedDate.split('/').map(Number);
@@ -82,6 +72,7 @@ function calculateTimeAgo(savedDate, timeUnit) {
     let timeAgo = '';
     let unitInKhmer = ''; // Variable to store the Khmer translation of the time unit
 
+    // Set timeAgo and unitInKhmer based on the chosen time unit
     if (timeUnit === "days") {
         timeAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Days
         unitInKhmer = "ថ្ងៃ";
@@ -98,4 +89,5 @@ function calculateTimeAgo(savedDate, timeUnit) {
 
     return `${timeAgo} ${unitInKhmer}`;
 }
+
 
