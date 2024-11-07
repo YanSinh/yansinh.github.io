@@ -80,13 +80,13 @@ function calculateTimeAgo(savedDate, timeUnit) {
 
     const timeDiff = currentDate - savedDateObj;
 
-    if (timeUnit === "days") {
+    if (timeUnit === "ថ្ងៃ") {
         return Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Days
-    } else if (timeUnit === "months") {
+    } else if (timeUnit === "ខែ") {
         const months = (currentDate.getFullYear() - savedDateObj.getFullYear()) * 12 
                        + (currentDate.getMonth() - savedDateObj.getMonth());
         return months;
-    } else if (timeUnit === "years") {
+    } else if (timeUnit === "ឆ្នាំ") {
         const years = currentDate.getFullYear() - savedDateObj.getFullYear();
         return years;
     }
