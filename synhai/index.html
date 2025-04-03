@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://yansinh.github.io/csm/img/sinh.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Sinh AI </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="new-chat-btn" id="new-chat-btn">
+                <i class="fas fa-plus"></i>
+                <span>ការជជែកថ្មី។</span>
+            </button>
+            <button class="close-sidebar" id="close-sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chat-history" id="chat-history">
+            <div class="chat-item active">
+                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
+               Error
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
+                 នៅក្នុងការធ្វើតេស្ត
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
+                 នៅក្នុងការធ្វើតេស្ត
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
+                នៅក្នុងការធ្វើតេស្ត
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">YS</div>
+                <div class="user-info">
+                    <div class="user-name">Yan Synh Owner <img alt="Verify" id="v" title="Verify Account" referrerpolicy="origin-when-cross-origin" src="https://static.xx.fbcdn.net/assets/?revision=1029768089004421&amp;name=fb-verifiedbadge-desktop&amp;density=1"></div>
+                    <div class="user-email">synh@company.com</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <div class="header">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <i class="fas fa-robot logo-icon"></i>
+                <span>Synh *****AI Testing With <img alt="Verify" width="50" id="v1" title="Verify Account" referrerpolicy="origin-when-cross-origin" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png"></span>
+            </div>
+            <div class="status">
+                <span id="connection-status">Online</span>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-window" id="chat-window">
+                <div class="welcome-message">
+                    <h2>សូមស្វាគមន៍មកកាន់ *****AI Made By Synh</h2>
+                    <p>ជំនួយការឆ្លាតវៃរបស់អ្នកត្រៀមខ្លួនជាស្រេចដើម្បីជួយជាមួយព័ត៌មាន គំនិតច្នៃប្រឌិត និងការដោះស្រាយបញ្ហា។ តើខ្ញុំអាចជួយអ្នកនៅថ្ងៃនេះដោយរបៀបណា?</p>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3>គំនិតច្នៃប្រឌិត </h3>
+                            <p>ការបំផុសគំនិត ការបង្កើតខ្លឹមសារ និងដំណោះស្រាយប្រកបដោយភាពច្នៃប្រឌិត</p>
+                        </div>
+                       <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h3>មូលដ្ឋានចំណេះដឹង</h3>
+                            <p>ចម្លើយចំពោះសំណួរនៅទូទាំងដែនផ្សេងៗ</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>ជំនួយកូដ</h3>
+                            <p>ជំនួយក្នុងការសរសេរកម្មវិធី និងបញ្ហាបច្ចេកទេស</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <span>*****AI កំពុងវាយអក្សរ</span>
+            </div>
+            
+            <div class="input-area">
+                <textarea class="message-input" id="message-input" placeholder="សារទៅ *****AI..." rows="1"></textarea>
+                <button class="send-button" id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+  <script src="script.js"></script>
+</body>
+</html>
