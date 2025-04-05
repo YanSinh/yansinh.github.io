@@ -30,13 +30,12 @@
             display: flex;
             position: relative;
         }
-        #v{ 
-
+       #v{ 
         position: relative;
-        top: 7px; 
-		}
-		    #v1{ 
-
+        top: 4px; 
+        width:17px;
+      }
+     #v1{
         position: relative;
         top: 5px; 
 		}
