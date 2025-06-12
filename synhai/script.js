@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
             aiResponse = aiResponse.replace(/Google/g, 'យ៉ាន់ ស៊ីញ');
 
             hideTypingIndicator();
-         //   addMessage(aiResponse, 'ai');
+            addMessage(aiResponse, 'ai');
         } catch (error) {
             hideTypingIndicator();
             addMessage("Error: Unable to get a response.", 'ai');
