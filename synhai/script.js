@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let aiResponse = (await response.json()).candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
 
             //  "Google" with "Synh"
-            aiResponse = aiResponse.replace(/Google/g, 'យ៉ាន់ ស៊ីញ');
+            aiResponse = aiResponse.replace(/Google/g, 'យ៉ាន ស៊ីញ');
 
             hideTypingIndicator();
             addMessage(aiResponse, 'ai');
