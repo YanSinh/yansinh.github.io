@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content typing-animation';
-    messageContent.textContent = '▍'; // Initial cursor
+    messageContent.textContent = '|'; // Initial cursor
     
     const messageMeta = document.createElement('div');
     messageMeta.className = 'message-meta';
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+        throw new Error(`Synh AI error: ${response.status}`);
       }
 
       const data = await response.json();
