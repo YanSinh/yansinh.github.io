@@ -1,118 +1,120 @@
-<!DOCTYPE html><html lang="km">
+<!DOCTYPE html>
+<html lang="km">
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="https://yansinh.github.io/csm/img/sinh.png" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Sinh AI </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synh AI - ជំនាញវិភាគភាសាធម្មជាតិ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <button class="new-chat-btn" id="new-chat-btn">
-                <i class="fas fa-plus"></i>
-                <span>ការជជែកថ្មី។</span>
-            </button>
-            <button class="close-sidebar" id="close-sidebar">
-                <i class="fas fa-times"></i>
-            </button>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <button class="new-chat-btn" id="new-chat-btn">
+        <i class="fas fa-plus"></i>
+        <span>ជជែកថ្មី</span>
+      </button>
+      <button class="close-sidebar" id="close-sidebar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="chat-history" id="chat-history">
+      <!-- Chat history will be populated here -->
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="user-avatar">យ•ស</div>
+        <div class="user-info">
+          <div class="user-name">យ៉ាន ស៊ីញ</div>
+          <div class="user-email">synh@anonymous.com</div>
         </div>
-        
-        <div class="chat-history" id="chat-history">
-            <div class="chat-item active">
-                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
-               Error
-            </div>
-            <div class="chat-item">
-                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
-                 នៅក្នុងការធ្វើតេស្ត
-            </div>
-            <div class="chat-item">
-                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
-                 នៅក្នុងការធ្វើតេស្ត
-            </div>
-            <div class="chat-item">
-                <i class="fas fa-comment-dots" style="margin-right: 8px;"></i>
-                នៅក្នុងការធ្វើតេស្ត
-            </div>
-        </div>
-        
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <img src="https://yansinh.github.io/csm/img/sinh.png" class="user-avatar">
-                <div class="user-info">
-                    <div class="user-name">Yan Synh <img alt="Verify" id="v" title="Verify Account" referrerpolicy="origin-when-cross-origin" src="../mey/v-mey.jpg"></div>
-                    <div class="user-email">synh@company.com</div>
-                </div>
-            </div>
-        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  
+  <div class="main-content" id="main-content">
+    <div class="header">
+      <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="logo">
+        <i class="fas fa-robot"></i>
+        <span>Synh AI</span>
+      </div>
+      <div class="status" id="connection-status">
+        <i class="fas fa-circle"></i>
+        <span>Online</span>
+      </div>
     </div>
     
-    <!-- Sidebar overlay for mobile -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
-    
-    <!-- Main Content -->
-    <div class="main-content" id="main-content">
-        <div class="header">
-            <button class="menu-toggle" id="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="logo">
-                <i class="fas fa-robot logo-icon"></i>
-                <span>Synh ***AI </span>
-            </div>
-            <div class="status">
-                <span id="connection-status"><img alt="GPU" width="50" id="v1" title="GPU running" referrerpolicy="origin-when-cross-origin" src="../mey/fan.webp"></span>
-            </div>
-        </div>
-        
-        <div class="chat-container">
-            <div class="chat-window" id="chat-window">
-                <div class="welcome-message">
-                    <h2>សូមស្វាគមន៍មកកាន់ ***AI</h2>
-                    <p>ជំនួយការឆ្លាតវៃរបស់អ្នកត្រៀមខ្លួនជាស្រេចដើម្បីជួយជាមួយព័ត៌មាន គំនិតច្នៃប្រឌិត និងការដោះស្រាយបញ្ហា។ តើខ្ញុំអាចជួយអ្នកនៅថ្ងៃនេះដោយរបៀបណា?</p>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h3>គំនិតច្នៃប្រឌិត </h3>
-                            <p>ការបំផុសគំនិត ការបង្កើតខ្លឹមសារ និងដំណោះស្រាយប្រកបដោយភាពច្នៃប្រឌិត</p>
-                        </div>
-                       <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <h3>មូលដ្ឋានចំណេះដឹង</h3>
-                            <p>ចម្លើយចំពោះសំណួរនៅទូទាំងដែនផ្សេងៗ</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <h3>ជំនួយកូដ</h3>
-                            <p>ជំនួយក្នុងការសរសេរកម្មវិធី និងបញ្ហាបច្ចេកទេស</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="chat-container">
+      <div class="chat-window" id="chat-window">
+        <div class="welcome-message">
+          <h2>សូមស្វាគមន៍មកកាន់ Synh AI</h2>
+          <p>ខ្ញុំអាចជួយអ្នកដោះស្រាយបញ្ហា ឆ្លើយសំណួរ និងផ្តល់យោបល់ដល់អ្នក។</p>
+          
+          <div class="features-grid">
+            <div class="feature-card" data-prompt="តើខ្ញុំអាចប្រើប្រាស់ Synh AI ដើម្បីអ្វីខ្លះ?">
+              <div class="feature-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h3>សំណួរទូទៅ</h3>
+              <p>សួររកព័ត៌មានទូទៅ ឬចម្លើយអំពីប្រធានបទផ្សេងៗ</p>
             </div>
             
-            <div class="typing-indicator" id="typing-indicator" style="display: none;">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <span>***AI កំពុងវាយអក្សរ</span>
+            <div class="feature-card" data-prompt="សរសេរកថាខណ្ឌអំពីបច្ចេកវិទ្យា AI នៅកម្ពុជា">
+              <div class="feature-icon">
+                <i class="fas fa-edit"></i>
+              </div>
+              <h3>ជំនួយការសរសេរ</h3>
+              <p>ជួយសរសេរអត្ថបទ កំណត់ហេតុ ឬអក្សរសំណេរ</p>
             </div>
             
-            <div class="input-area">
-                <textarea class="message-input" id="message-input" placeholder="សារ ***AI..." rows="1"></textarea>
-                <button class="send-button" id="send-button">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+            <div class="feature-card" data-prompt="បកប្រែឃ្លាខាងក្រោមពីអង់គ្លេសទៅភាសាខ្មែរ: 'Hello, how are you today?'">
+              <div class="feature-icon">
+                <i class="fas fa-language"></i>
+              </div>
+              <h3>ការបកប្រែភាសា</h3>
+              <p>បកប្រែអត្ថបទពីភាសាមួយទៅភាសាមួយទៀត</p>
             </div>
+            
+            <div class="feature-card" data-prompt="ពន្យល់អំពី blockchain ជាភាសាខ្មែរសាមញ្ញ">
+              <div class="feature-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <h3>ចំណេះដឹងថ្មី</h3>
+              <p>រៀនអំពីប្រធានបទថ្មីៗដោយសាមញ្ញ</p>
+            </div>
+          </div>
         </div>
+      </div>
+      
+      <div class="typing-indicator" id="typing-indicator" style="display: none;">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <span>Synh AI កំពុងវាយអក្សរ...</span>
+      </div>
     </div>
+    
+    <div class="input-area" id="input-area">
+      <div class="input-container">
+        <button class="attachment-button" id="attachment-button" title="ភ្ជាប់ឯកសារ">
+          <i class="fas fa-paperclip"></i>
+          <input type="file" class="file-input" id="file-input" accept="image/*,.pdf,.doc,.docx,.txt">
+        </button>
+        
+        <textarea class="message-input" id="message-input" placeholder="សរសេរសាររបស់អ្នកនៅទីនេះ..." rows="1"></textarea>
+        
+        <button class="send-button" id="send-button">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
   <script src="script.js"></script>
-</body></html>
+</body>
+</html>
