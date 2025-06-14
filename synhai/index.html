@@ -6,7 +6,7 @@
   <title>Synh AI - ជំនាញវិភាគភាសាធម្មជាតិ</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css>
 </head>
 <body>
   <div class="sidebar" id="sidebar">
@@ -27,7 +27,7 @@
         <div class="user-avatar">យ•ស</div>
         <div class="user-info">
           <div class="user-name">យ៉ាន ស៊ីញ</div>
-          <div class="user-email">synh@anonymous.com</div>
+          <div class="user-email">Admin of Ai</div>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
-        <span>Synh AI កំពុងវាយអក្សរ...</span>
+        <span>Synh AI កំពុងគិត...</span>
       </div>
     </div>
     
@@ -115,6 +115,21 @@
       </div>
     </div>
   </div>
-  <script src="script.js"></script>
+
+  <!-- Blur background when message is selected -->
+  <div class="blur-background" id="blur-background"></div>
+  
+  <!-- Feedback modal for dislike -->
+  <div class="feedback-modal" id="feedback-modal">
+    <h3>អ្នកមិនចូលចិត្តចម្លើយនេះមែនទេ?</h3>
+    <p>សូមប្រាប់យើងពីមូលហេតុ ដើម្បីអាចកែលម្អសេវាកម្មរបស់យើង។</p>
+    <textarea class="feedback-textarea" id="feedback-textarea" placeholder="សូមបញ្ចូលមតិយោបល់របស់អ្នក..."></textarea>
+    <div class="feedback-buttons">
+      <button class="feedback-cancel" id="feedback-cancel">បោះបង់</button>
+      <button class="feedback-submit" id="feedback-submit">ដាក់ស្នើ</button>
+    </div>
+  </div>
+
+<script src="script.js" ></script>
 </body>
 </html>
