@@ -1,5 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', function() {
-  // DOM Elements
+  
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menu-toggle');
   const closeSidebar = document.getElementById('close-sidebar');
@@ -14,12 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const attachmentButton = document.getElementById('attachment-button');
   const fileInput = document.getElementById('file-input');
   const featureCards = document.querySelectorAll('.feature-card');
+  const blurBackground = document.getElementById('blur-background');
+  const feedbackModal = document.getElementById('feedback-modal');
+  const feedbackTextarea = document.getElementById('feedback-textarea');
+  const feedbackCancel = document.getElementById('feedback-cancel');
+  const feedbackSubmit = document.getElementById('feedback-submit');
 
-  // API Configuration
+  
   const API_KEY = "AIzaSyB5A8BsOXhnPYO9sw3cNJscHthmZl9nGRs";
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
-  // State variables
+  
   let isSidebarOpen = false;
   let currentChatId = null;
   let chats = {};
@@ -28,8 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let typingAnimationInterval;
   let currentTypingMessage = "";
   let lastUserMessage = null;
+  let selectedMessage = null;
 
-  // Initialize the app
+  
   initApp();
 
   function initApp() {
@@ -43,13 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
       displayChat(currentChatId);
     }
     
-    // Show input area with animation
+    
     setTimeout(() => {
       inputArea.classList.add('visible');
     }, 300);
   }
 
-  // Chat History Functions
+  
   function loadChats() {
     const savedChats = localStorage.getItem('synh-ai-chats');
     if (savedChats) {
@@ -91,14 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
       file: msg.file
     }));
     
-    // Clear chat window
+    
     chatWindow.innerHTML = chat.messages.length === 0 ? 
       `<div class="welcome-message">
         <h2>${chatId === currentChatId ? 'ការជជែកថ្មី' : 'ការជជែកមុន'}</h2>
         <p>${chatId === currentChatId ? 'ខ្ញុំអាចជួយអ្នកដោះស្រាយបញ្ហា ឆ្លើយសំណួរ និងផ្តល់យោបល់ដល់អ្នក។' : 'ការជជែកពីមុន។'}</p>
       </div>` : '';
     
-    // Display all messages
+    
     chat.messages.forEach(msg => {
       addMessageToUI(msg.text, msg.role, msg.timestamp, msg.file);
     });
@@ -177,15 +184,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Message Handling
+  
   function sendMessage() {
     const message = messageInput.value.trim();
-    if (!message && !fileInput.files.length) return;
+    if ((!message && !fileInput.files.length) || isAIResponding) return;
     
     const timestamp = new Date().toISOString();
     let fileData = null;
     
-    // Handle file attachment if exists
+    
     if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
       fileData = {
@@ -195,15 +202,15 @@ document.addEventListener('DOMContentLoaded', function() {
         url: URL.createObjectURL(file)
       };
       
-      // Reset file input
+      
       fileInput.value = '';
       messageInput.placeholder = "សរសេរសាររបស់អ្នកនៅទីនេះ...";
     }
     
-    // Add message to UI
+    
     addMessageToUI(message, 'user', timestamp, fileData);
     
-    // Update current chat
+    
     chats[currentChatId].messages.push({
       role: 'user',
       text: message,
@@ -211,13 +218,17 @@ document.addEventListener('DOMContentLoaded', function() {
       file: fileData
     });
     
-    // Update chat title if first message
+    
     if (chats[currentChatId].messages.length === 1) {
-      chats[currentChatId].title = message || "ឯកសារភ្ជាប់";
+      let title = message || "ឯកសារភ្ជាប់";
+      if (title.length > 30) {
+        title = title.substring(0, 30) + "...";
+      }
+      chats[currentChatId].title = title;
       updateChatHistoryUI();
     }
     
-    // Update timestamps
+   
     chats[currentChatId].updatedAt = timestamp;
     
     conversationHistory.push({ 
@@ -227,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     saveChats();
     
-    // Clear input and get AI response
+   
     messageInput.value = '';
     messageInput.style.height = 'auto';
     showTypingIndicator();
@@ -238,18 +249,19 @@ document.addEventListener('DOMContentLoaded', function() {
   async function fetchAIResponse(userMessage) {
     if (isAIResponding) return;
     isAIResponding = true;
+    sendButton.disabled = true;
     
     const timestamp = new Date().toISOString();
     const tempMessageId = 'temp-' + Date.now();
     
-    // Create temporary message container
+   
     const tempMessageDiv = document.createElement('div');
     tempMessageDiv.id = tempMessageId;
     tempMessageDiv.className = 'message ai-message';
     
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content typing-animation';
-    messageContent.textContent = '|'; // Initial cursor
+    messageContent.textContent = '|';
     
     const messageMeta = document.createElement('div');
     messageMeta.className = 'message-meta';
@@ -265,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     messageMeta.append(senderElement, ' • ', timeElement);
     tempMessageDiv.append(messageContent, messageMeta);
     
-    // Remove welcome message if it exists
+   
     const welcomeMessage = document.querySelector('.welcome-message');
     if (welcomeMessage) {
       welcomeMessage.remove();
@@ -294,20 +306,27 @@ document.addEventListener('DOMContentLoaded', function() {
       let aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 
                       "ខ្ញុំមិនអាចឆ្លើយសំណួរនេះបានទេ។";
       
-      // Customize response for your brand
       aiResponse = aiResponse.replace(/Google|Gemini/g, 'Synh AI');
 
-      // Simulate typing effect
-      await simulateTypingEffect(tempMessageId, aiResponse, timestamp);
+          await simulateTypingEffect(tempMessageId, aiResponse, timestamp);
+
+   
+      chats[currentChatId].messages.push({
+        role: 'ai',
+        text: aiResponse,
+        timestamp: new Date().toISOString()
+      });
+      saveChats();
 
     } catch (error) {
-      console.error("API Error:", error);
+      console.error("AI Error:", error);
       document.getElementById(tempMessageId)?.remove();
       addMessageToUI("⚠️ មានបញ្ហាក្នុងការភ្ជាប់ទៅកាន់ Synh AI. សូមព្យាយាមម្តងទៀត!", 'ai', new Date().toISOString());
     } finally {
       isAIResponding = false;
       clearInterval(typingAnimationInterval);
-      typingIndicator.style.display = 'none'; // Ensure typing indicator is hidden
+      typingIndicator.style.display = 'none';
+      sendButton.disabled = false;
     }
   }
 
@@ -319,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
     messageContent.classList.add('typing-animation');
     
     let currentPosition = 0;
-    const typingSpeed = 20 + Math.random() * 30; // Vary speed for natural feel
+    const typingSpeed = 20 + Math.random() * 30;
     currentTypingMessage = "";
     
     return new Promise(resolve => {
@@ -328,7 +347,6 @@ document.addEventListener('DOMContentLoaded', function() {
           clearInterval(typingAnimationInterval);
           messageContent.classList.remove('typing-animation');
           
-          // Replace with final message
           setTimeout(() => {
             element.remove();
             addMessageToUI(fullText, 'ai', timestamp);
@@ -338,15 +356,11 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
         }
         
-        // Add next character with occasional pauses
         if (Math.random() > 0.1 || currentPosition === 0) {
           currentTypingMessage += fullText[currentPosition];
           currentPosition++;
           
-          // Update content with cursor
           messageContent.innerHTML = currentTypingMessage.replace(/\n/g, '<br>') + '<span class="typing-cursor">▍</span>';
-          
-          // Auto-scroll
           chatWindow.scrollTop = chatWindow.scrollHeight;
         }
       }, typingSpeed);
@@ -364,7 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
     messageContent.className = 'message-content';
     messageContent.innerHTML = content.replace(/\n/g, '<br>');
     
-    // Add file attachment if exists
     if (file) {
       const fileExt = file.name.split('.').pop().toLowerCase();
       const fileType = file.type.split('/')[0];
@@ -378,7 +391,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const fileSize = formatFileSize(file.size);
       
       if (fileType === 'image') {
-        // Show image preview with loading animation
         const imgContainer = document.createElement('div');
         imgContainer.className = 'image-loading';
         
@@ -393,7 +405,6 @@ document.addEventListener('DOMContentLoaded', function() {
         imgContainer.appendChild(imgPreview);
         messageContent.appendChild(imgContainer);
       } else {
-        // Show file attachment
         const fileLink = document.createElement('a');
         fileLink.href = file.url;
         fileLink.className = 'file-attachment';
@@ -419,11 +430,9 @@ document.addEventListener('DOMContentLoaded', function() {
       senderElement.textContent = 'Synh AI';
       messageMeta.append(senderElement, ' • ', timeElement);
       
-      // Add action buttons for AI messages
       const actionButtons = document.createElement('div');
       actionButtons.className = 'message-actions';
       
-      // Copy button
       const copyButton = document.createElement('button');
       copyButton.className = 'action-btn copy-btn';
       copyButton.innerHTML = '<i class="far fa-copy"></i>';
@@ -434,7 +443,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showTooltip(copyButton, 'Copied!');
       });
       
-      // Like button
       const likeButton = document.createElement('button');
       likeButton.className = 'action-btn like-btn';
       likeButton.innerHTML = '<i class="far fa-thumbs-up"></i>';
@@ -444,9 +452,33 @@ document.addEventListener('DOMContentLoaded', function() {
         likeButton.innerHTML = '<i class="fas fa-thumbs-up"></i>';
         likeButton.classList.add('liked');
         showTooltip(likeButton, 'Liked!');
+        
+        const dislikeButton = e.currentTarget.parentElement.querySelector('.dislike-btn');
+        if (dislikeButton) {
+          dislikeButton.innerHTML = '<i class="far fa-thumbs-down"></i>';
+          dislikeButton.classList.remove('disliked');
+        }
       });
       
-      // Regenerate button
+      const dislikeButton = document.createElement('button');
+      dislikeButton.className = 'action-btn dislike-btn';
+      dislikeButton.innerHTML = '<i class="far fa-thumbs-down"></i>';
+      dislikeButton.title = 'Dislike this response';
+      dislikeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dislikeButton.innerHTML = '<i class="fas fa-thumbs-down"></i>';
+        dislikeButton.classList.add('disliked');
+        showTooltip(dislikeButton, 'Disliked!');
+        
+        const likeButton = e.currentTarget.parentElement.querySelector('.like-btn');
+        if (likeButton) {
+          likeButton.innerHTML = '<i class="far fa-thumbs-up"></i>';
+          likeButton.classList.remove('liked');
+        }
+        
+        showFeedbackModal(messageDiv);
+      });
+      
       const regenerateButton = document.createElement('button');
       regenerateButton.className = 'action-btn regenerate-btn';
       regenerateButton.innerHTML = '<i class="fas fa-redo"></i>';
@@ -456,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         regenerateResponse(messageDiv);
       });
       
-      actionButtons.append(copyButton, likeButton, regenerateButton);
+      actionButtons.append(copyButton, likeButton, dislikeButton, regenerateButton);
       messageMeta.appendChild(actionButtons);
     } else {
       messageMeta.appendChild(timeElement);
@@ -464,36 +496,68 @@ document.addEventListener('DOMContentLoaded', function() {
     
     messageDiv.append(messageContent, messageMeta);
     
-    // Remove welcome message if it's the first user message
     const welcomeMessage = document.querySelector('.welcome-message');
     if (welcomeMessage && sender === 'user') {
       welcomeMessage.remove();
     }
     
+    let pressTimer;
+    messageDiv.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      pressTimer = setTimeout(() => {
+        selectMessage(messageDiv);
+      }, 500);
+    });
+    
+    messageDiv.addEventListener('mouseup', function() {
+      clearTimeout(pressTimer);
+    });
+    
+    messageDiv.addEventListener('mouseleave', function() {
+      clearTimeout(pressTimer);
+    });
+    
+    messageDiv.addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'I' || e.target.tagName === 'A') {
+        return;
+      }
+      clearTimeout(pressTimer);
+      if (selectedMessage === messageDiv) {
+        deselectMessage();
+      }
+    });
+    
     chatWindow.appendChild(messageDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  function selectMessage(messageDiv) {
+    deselectMessage();
+    selectedMessage = messageDiv;
+    messageDiv.classList.add('selected');
+    blurBackground.style.display = 'block';
     
-    // Add to conversation history if not already there (typing messages are added after completion)
-    if (sender === 'user' || !isAIResponding) {
-      const messageData = {
-        role: sender,
-        text: content,
-        timestamp,
-        ...(file && { file })
-      };
-      
-      if (sender === 'user') {
-        chats[currentChatId].messages.push(messageData);
-      } else {
-        chats[currentChatId].messages.push(messageData);
-        conversationHistory.push({
-          role: 'model',
-          content: content
-        });
-      }
-      
-      saveChats();
+    blurBackground.addEventListener('click', deselectMessage);
+  }
+  
+  function deselectMessage() {
+    if (selectedMessage) {
+      selectedMessage.classList.remove('selected');
+      selectedMessage = null;
     }
+    blurBackground.style.display = 'none';
+  }
+  
+  function showFeedbackModal(messageDiv) {
+    feedbackModal.style.display = 'block';
+    blurBackground.style.display = 'block';
+    feedbackModal.dataset.messageId = Array.from(chatWindow.children).indexOf(messageDiv);
+  }
+  
+  function hideFeedbackModal() {
+    feedbackModal.style.display = 'none';
+    blurBackground.style.display = 'none';
+    feedbackTextarea.value = '';
   }
 
   function copyToClipboard(text) {
@@ -525,26 +589,22 @@ document.addEventListener('DOMContentLoaded', function() {
   function regenerateResponse(messageElement) {
     if (isAIResponding) return;
     
-    // Remove the existing message
     messageElement.remove();
     
-    // Remove from chat history
     const messageIndex = chats[currentChatId].messages.findIndex(
       msg => msg.role === 'model' && msg.text === messageElement.querySelector('.message-content').textContent
     );
     
     if (messageIndex !== -1) {
       chats[currentChatId].messages.splice(messageIndex, 1);
-      conversationHistory.pop(); // Remove last AI response
+      conversationHistory.pop();
       saveChats();
     }
     
-    // Resend the last user message
     showTypingIndicator();
     fetchAIResponse(lastUserMessage);
   }
 
-  // UI Functions
   function updateActiveChatIndicator() {
     document.querySelectorAll('.chat-item').forEach(item => {
       item.classList.toggle('active', item.dataset.chatId === currentChatId);
@@ -562,7 +622,6 @@ document.addEventListener('DOMContentLoaded', function() {
     sendButton.disabled = false;
   }
 
-  // Sidebar Functions
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
     sidebar.classList.toggle('visible', isSidebarOpen);
@@ -577,7 +636,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = '';
   }
 
-  // Helper Functions
   function generateChatId() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
@@ -618,7 +676,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   }
 
-  // Event Listeners
+
   menuToggle.addEventListener('click', toggleSidebar);
   closeSidebar.addEventListener('click', closeSidebarFn);
   sidebarOverlay.addEventListener('click', closeSidebarFn);
@@ -635,7 +693,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  sendButton.addEventListener('click', sendMessage);
+  sendButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    sendMessage();
+  });
+  
   newChatBtn.addEventListener('click', createNewChat);
   attachmentButton.addEventListener('click', () => fileInput.click());
   
@@ -646,159 +708,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Initial focus
+  featureCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const prompt = card.dataset.prompt;
+      messageInput.value = prompt;
+      messageInput.focus();
+    });
+  });
+  
+  feedbackCancel.addEventListener('click', hideFeedbackModal);
+  feedbackSubmit.addEventListener('click', function() {
+    const feedback = feedbackTextarea.value.trim();
+    const messageIndex = feedbackModal.dataset.messageId;
+    
+    if (feedback) {
+      console.log('User feedback:', feedback);
+      alert('សូមអរគុណសម្រាប់មតិយោបល់របស់អ្នក!');
+    }
+    
+    hideFeedbackModal();
+  });
+  
   messageInput.focus();
   
-  // Responsive handling
   window.addEventListener('resize', function() {
     if (window.innerWidth > 768 && isSidebarOpen) {
       closeSidebarFn();
     }
   });
-
-  // Add the required CSS styles
-  const style = document.createElement('style');
-  style.textContent = `
-    /* Typing animations */
-    @keyframes fadeInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes fadeInRight {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .typing-animation {
-      position: relative;
-    }
-
-    .typing-cursor {
-      display: inline-block;
-      animation: blink 1s infinite;
-      vertical-align: baseline;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* Image loading */
-    .image-loading {
-      position: relative;
-      background: #f3f4f6;
-      border-radius: 12px;
-      overflow: hidden;
-      min-height: 100px;
-    }
-
-    .image-loading::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.8) 50%, 
-        rgba(255,255,255,0) 100%);
-      animation: loadingShimmer 1.5s infinite;
-    }
-
-    @keyframes loadingShimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    /* Message animations */
-    .message {
-      transition: all 0.3s ease;
-    }
-
-    .message.user-message {
-      animation: fadeInRight 0.3s forwards;
-    }
-
-    .message.ai-message {
-      animation: fadeInLeft 0.3s forwards;
-    }
-
-    /* Message action buttons */
-    .message-actions {
-      display: flex;
-      gap: 8px;
-      margin-left: auto;
-    }
-    
-    .action-btn {
-      background: none;
-      border: none;
-      color: #6b7280;
-      cursor: pointer;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-    
-    .action-btn:hover {
-      background: #f3f4f6;
-      color: #1f2937;
-    }
-    
-    .action-btn.liked {
-      color: #2563eb;
-    }
-    
-    .ai-message .message-meta {
-      display: flex;
-      align-items: center;
-    }
-    
-    /* Tooltip styles */
-    .tooltip {
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1f2937;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-    
-    .tooltip.show {
-      opacity: 1;
-    }
-    
-    /* Typing indicator fix */
-    .typing-indicator {
-      transition: opacity 0.3s ease;
-    }
-  `;
-  document.head.appendChild(style);
 });
