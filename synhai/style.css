@@ -10,7 +10,12 @@
       color: #1f2937;
       line-height: 1.6;
     }
-    
+        /* Remove these styles if they exist */
+.download-btn, 
+.download-image-btn {
+    display: none !important;
+}
+ 
     /* Sidebar Styles */
     .sidebar {
       position: fixed;
