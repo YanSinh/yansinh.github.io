@@ -663,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function() {
           width: 512,
           height: 512,
         //  model: "civitai:102438@133677",
-          model: "civitai:25694@143906",
+          model: "rundiffusion:130@100",
 
           numberResults: 1
         }
