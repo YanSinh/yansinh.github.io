@@ -660,9 +660,11 @@ document.addEventListener('DOMContentLoaded', function() {
           taskType: "imageInference",
           taskUUID: "39d7207a-87ef-4c93-8082-1431f9c1dc97",
           positivePrompt: prompt,
-          width: 512,
-          height: 512,
-        //  model: "civitai:102438@133677",
+          width: 1152,
+          height: 768,
+        //  1152 × 768 new
+          //512x512 before 
+        // kak model: "civitai:102438@133677",
           model: "rundiffusion:130@100",
 
           numberResults: 1
