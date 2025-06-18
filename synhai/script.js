@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
           taskType: "imageInference",
           taskUUID: "39d7207a-87ef-4c93-8082-1431f9c1dc97",
           positivePrompt: prompt,
-          width: 1152,
+          width: 384,
           height: 768,
         //  1152 × 768 new
           //512x512 before 
