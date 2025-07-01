@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
     messageContent.classList.add('typing-animation');
     
     let currentPosition = 0;
-    const typingSpeed = 20 + Math.random() * 30;
+    const typingSpeed = 5 + Math.random() * 10;
     currentTypingMessage = "";
     
     return new Promise(resolve => {
