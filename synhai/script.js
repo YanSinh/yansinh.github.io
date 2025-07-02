@@ -417,7 +417,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (Math.random() > 0.1 || currentPosition === 0) {
           currentTypingMessage += fullText[currentPosition];
           currentPosition++;
-          messageContent.innerHTML = currentTypingMessage.replace(/\n/g, '<br>') + '<span class="typing-cursor">▍</span>';
+          messageContent.innerHTML =
+          messageContent.innerHTML =
+          currentTypingMessage
+           .replace(/\n/g, '<br>')
+           .replace(/\*\*(.*?)\*\*/g, function(match, p1) {
+             return '<b>' + p1 + '</b>';
+          }) +
+        '<span class="typing-cursor">|</span>';
+
+
           
           // Only auto-scroll if user hasn't scrolled up
           if (shouldAutoScroll && !userHasScrolledUp) {
