@@ -944,41 +944,6 @@ document.addEventListener('DOMContentLoaded', function() {
       overflow-anchor: none;
     }
     
-    /* Improved input area layout */
-    .input-area {
-      padding: 15px;
-      background: white;
-      border-top: 1px solid #e5e7eb;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 200;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .input-container {
-      display: flex;
-      align-items: center;
-      background: #f9fafb;
-      border-radius: 12px;
-      padding: 8px 12px;
-      border: 1px solid #e5e7eb;
-      gap: 8px;
-    }
-    
-    .message-input {
-      flex: 1;
-      min-height: 20px;
-      max-height: 120px;
-      padding: 8px 0;
-      border: none;
-      background: transparent;
-      resize: none;
-      outline: none;
-      font-size: 15px;
-      line-height: 1.5;
-    }
     
     /* Improved button layout */
     .generate-image-btn {
