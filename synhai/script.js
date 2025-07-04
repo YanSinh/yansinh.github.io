@@ -16,9 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const featureCards = document.querySelectorAll('.feature-card');
 
   // API Configuration
+  
   const API_KEY = "AIzaSyB5A8BsOXhnPYO9sw3cNJscHthmZl9nGRs";
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
-  const IMAGE_API_KEY = "7uuFhlQg9dHZ1rNFEstAIpH5NrlkoPh9";
+  const IMAGE_API_KEY = "IJ7G5mNy41xRLfeXONYYsINhScEEAZQF";
+  // av 7uuFhlQg9dHZ1rNFEstAIpH5NrlkoPh9
   //end V6ekr1ceh9Jvnce375CDiR012bezgnV7
   //end rJfNmKX97MMAqSN5H8ewnyb2uKEs1V2G
   //av  6EC34cPZUWe0pakeU65ltCh9vb3Ll3f3
