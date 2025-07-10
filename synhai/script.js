@@ -16,14 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const featureCards = document.querySelectorAll('.feature-card');
 
   // API Configuration
-  
   const API_KEY = "AIzaSyB5A8BsOXhnPYO9sw3cNJscHthmZl9nGRs";
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
   const IMAGE_API_KEY = "IJ7G5mNy41xRLfeXONYYsINhScEEAZQF";
-  // av 7uuFhlQg9dHZ1rNFEstAIpH5NrlkoPh9
-  //end V6ekr1ceh9Jvnce375CDiR012bezgnV7
-  //end rJfNmKX97MMAqSN5H8ewnyb2uKEs1V2G
-  //av  6EC34cPZUWe0pakeU65ltCh9vb3Ll3f3
+
   // State variables
   let isSidebarOpen = false;
   let currentChatId = null;
@@ -35,6 +31,103 @@ document.addEventListener('DOMContentLoaded', function() {
   let lastUserMessage = null;
   let shouldAutoScroll = true;
   let userHasScrolledUp = false;
+
+  // Enhanced Markdown formatting function
+  function formatMarkdown(text) {
+    // Process block elements first
+    let formattedText = text
+      // Headers
+      .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+      .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+      .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+      .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
+      .replace(/^##### (.*$)/gm, '<h5>$1</h5>')
+      .replace(/^###### (.*$)/gm, '<h6>$1</h6>')
+      
+      // Blockquotes
+      .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
+      
+      // Ordered lists
+      .replace(/^\d+\. (.*$)/gm, '<li>$1</li>')
+      
+      // Unordered lists
+      .replace(/^[-*+] (.*$)/gm, '<li>$1</li>')
+      
+      // Code blocks
+      .replace(/```([a-z]*)\n([\s\S]*?)\n```/g, function(match, lang, code) {
+        return `<pre><code class="language-${lang}">${escapeHtml(code)}</code></pre>`;
+      })
+      
+      // Tables (basic support)
+      .replace(/(\|.+\|.+\|(\n|\r\n)?)+/g, function(match) {
+        const rows = match.trim().split('\n');
+        let tableHtml = '<table class="markdown-table">';
+        rows.forEach((row, i) => {
+          const cells = row.split('|').filter(cell => cell.trim() !== '');
+          if (i === 0) {
+            tableHtml += '<thead><tr>';
+            cells.forEach(cell => tableHtml += `<th>${cell.trim()}</th>`);
+            tableHtml += '</tr></thead><tbody>';
+          } else if (!row.match(/^[-: ]+$/)) {
+            tableHtml += '<tr>';
+            cells.forEach(cell => tableHtml += `<td>${cell.trim()}</td>`);
+            tableHtml += '</tr>';
+          }
+        });
+        return tableHtml + '</tbody></table>';
+      });
+
+    // Process inline elements
+    formattedText = formattedText
+      // Bold
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/__(.*?)__/g, '<strong>$1</strong>')
+      
+      // Italic
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/_(.*?)_/g, '<em>$1</em>')
+      
+      // Strikethrough
+      .replace(/~~(.*?)~~/g, '<del>$1</del>')
+      
+      // Inline code
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      
+      // Links
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      
+      // Images
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="markdown-image">')
+      
+      // Automatic links
+      .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+      
+      // Line breaks
+      .replace(/\n/g, '<br>')
+      
+      // Horizontal rule
+      .replace(/^\s*[-*_]{3,}\s*$/gm, '<hr class="markdown-hr">');
+
+    // Post-processing for lists
+    formattedText = formattedText
+      .replace(/(<li>.*?<\/li>)+/g, function(match) {
+        if (match.match(/^\d+\./)) {
+          return '<ol>' + match + '</ol>';
+        }
+        return '<ul>' + match + '</ul>';
+      });
+
+    return formattedText;
+  }
+
+  function escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
   // Initialize the app with improved layout
   function initApp() {
@@ -59,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
     generateImageBtn.title = 'Generate Image';
     generateImageBtn.innerHTML = '<i class="fas fa-image"></i>';
     
-    // Toggle "Generate image:" prefix
     generateImageBtn.addEventListener('click', function() {
       if (messageInput.value.startsWith("Generate image:")) {
         messageInput.value = "";
@@ -69,13 +161,80 @@ document.addEventListener('DOMContentLoaded', function() {
       messageInput.focus();
     });
     
-    // Add to the left of attachment button
     const inputContainer = document.querySelector('.input-container');
     inputContainer.insertBefore(generateImageBtn, attachmentButton);
     
-    // Remove attachment button functionality
     attachmentButton.style.display = 'none';
     fileInput.style.display = 'none';
+
+    // Add markdown styles
+    const markdownStyles = document.createElement('style');
+    markdownStyles.textContent = `
+      .message-content h1, .message-content h2, .message-content h3,
+      .message-content h4, .message-content h5, .message-content h6 {
+        margin: 0.5em 0;
+        line-height: 1.2;
+      }
+      .message-content h1 { font-size: 1.5em; font-weight: 600; }
+      .message-content h2 { font-size: 1.3em; font-weight: 550; }
+      .message-content h3 { font-size: 1.1em; font-weight: 500; }
+      .message-content h4 { font-size: 1em; font-weight: 500; }
+      .message-content ul, .message-content ol {
+        padding-left: 1.5em;
+        margin: 0.5em 0;
+      }
+      .message-content li {
+        margin: 0.2em 0;
+      }
+      .message-content blockquote {
+        border-left: 3px solid #ddd;
+        padding-left: 1em;
+        margin: 0.5em 0;
+        color: #666;
+        font-style: italic;
+      }
+      .message-content pre {
+        background: #f5f5f5;
+        padding: 0.8em;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 0.8em 0;
+      }
+      .message-content code {
+        background: #f0f0f0;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-family: monospace;
+        font-size: 0.9em;
+      }
+      .message-content .markdown-table {
+        border-collapse: collapse;
+        margin: 0.8em 0;
+        width: 100%;
+      }
+      .message-content .markdown-table th,
+      .message-content .markdown-table td {
+        border: 1px solid #ddd;
+        padding: 0.4em 0.8em;
+      }
+      .message-content .markdown-table th {
+        background-color: #f5f5f5;
+        font-weight: 500;
+      }
+      .message-content .markdown-hr {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 1em 0;
+      }
+      .message-content .markdown-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin: 0.5em 0;
+      }
+    `;
+    document.head.appendChild(markdownStyles);
   }
 
   function loadChats() {
@@ -130,7 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
       addMessageToUI(msg.text, msg.role, msg.timestamp, msg.file, msg.imageUrl);
     });
     
-    // Scroll to bottom when loading chat
     setTimeout(() => {
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }, 100);
@@ -209,11 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Improved message handling
   function sendMessage() {
     const message = messageInput.value.trim();
     
-    // Handle image generation if specified
     if (message.startsWith("Generate image:")) {
       handleImageGeneration();
       return;
@@ -226,10 +382,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const timestamp = new Date().toISOString();
     
-    // Add user message
     addMessageToUI(message, 'user', timestamp);
     
-    // Save user message
     const userMessageData = {
       role: 'user',
       text: message,
@@ -242,21 +396,17 @@ document.addEventListener('DOMContentLoaded', function() {
       content: message
     });
 
-    // Improved auto-set chat title from first message
     if (chats[currentChatId].messages.length === 1) {
       let titleText = message;
       
-      // Clean up the title text
       if (titleText.length > 40) {
         titleText = titleText.substring(0, 40) + "...";
       }
       
-      // Remove common prefixes
       titleText = titleText
         .replace(/^(generate image:|please|can you|how do|what is|តើ)/i, '')
         .trim();
       
-      // Capitalize first letter
       if (titleText.length > 0) {
         titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1);
       }
@@ -274,7 +424,6 @@ document.addEventListener('DOMContentLoaded', function() {
     lastUserMessage = message;
     fetchAIResponse(message);
     
-    // Reset scroll behavior
     shouldAutoScroll = true;
     userHasScrolledUp = false;
   }
@@ -292,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content typing-animation';
-    messageContent.textContent = '|';
+    messageContent.innerHTML = '<span class="typing-cursor">|</span>';
     
     const messageMeta = document.createElement('div');
     messageMeta.className = 'message-meta';
@@ -315,7 +464,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     chatWindow.appendChild(tempMessageDiv);
     
-    // Auto-scroll to show typing indicator
     if (shouldAutoScroll && !userHasScrolledUp) {
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
@@ -342,10 +490,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       aiResponse = aiResponse.replace(/Google|Gemini/g, 'Synh AI');
 
-      // Simulate typing and save AI response
       await simulateTypingEffect(tempMessageId, aiResponse, timestamp);
       
-      // Save AI message
       const aiMessageData = {
         role: 'model',
         text: aiResponse,
@@ -419,18 +565,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (Math.random() > 0.1 || currentPosition === 0) {
           currentTypingMessage += fullText[currentPosition];
           currentPosition++;
-          messageContent.innerHTML =
-          messageContent.innerHTML =
-          currentTypingMessage
-           .replace(/\n/g, '<br>')
-           .replace(/\*\*(.*?)\*\*/g, function(match, p1) {
-             return '<b>' + p1 + '</b>';
-          }) +
-        '<span class="typing-cursor">|</span>';
-
-
           
-          // Only auto-scroll if user hasn't scrolled up
+          messageContent.innerHTML = formatMarkdown(currentTypingMessage) + '<span class="typing-cursor">|</span>';
+          
           if (shouldAutoScroll && !userHasScrolledUp) {
             chatWindow.scrollTop = chatWindow.scrollHeight;
           }
@@ -439,7 +576,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Create image preview modal
   function createImagePreviewModal() {
     const modal = document.createElement('div');
     modal.className = 'image-preview-modal';
@@ -454,7 +590,6 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.body.appendChild(modal);
     
-    // Close modal when clicking outside or on close button
     modal.addEventListener('click', (e) => {
       if (e.target === modal || e.target.classList.contains('close-modal')) {
         modal.style.display = 'none';
@@ -464,7 +599,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return modal;
   }
 
-  // Initialize image preview modal
   const imagePreviewModal = createImagePreviewModal();
 
   function addMessageToUI(content, sender, timestamp, file = null, imageUrl = null) {
@@ -478,7 +612,6 @@ document.addEventListener('DOMContentLoaded', function() {
     messageContent.className = 'message-content';
     
     if (imageUrl) {
-      // Handle generated image
       const imgContainer = document.createElement('div');
       imgContainer.className = 'image-container';
       
@@ -487,7 +620,6 @@ document.addEventListener('DOMContentLoaded', function() {
       img.alt = 'Generated image';
       img.className = 'generated-image';
       
-      // Add click handler for preview
       img.addEventListener('click', () => {
         const modalImg = imagePreviewModal.querySelector('.modal-image');
         const downloadBtn = imagePreviewModal.querySelector('.download-image-btn');
@@ -497,7 +629,6 @@ document.addEventListener('DOMContentLoaded', function() {
         imagePreviewModal.style.display = 'flex';
       });
       
-      // Direct download button (no preview)
       const downloadBtn = document.createElement('a');
       downloadBtn.href = '#';
       downloadBtn.className = 'download-btn';
@@ -517,13 +648,11 @@ document.addEventListener('DOMContentLoaded', function() {
       imgContainer.appendChild(downloadBtn);
       messageContent.appendChild(imgContainer);
       
-      // Add prompt text
       const promptText = document.createElement('p');
       promptText.textContent = content;
       messageContent.appendChild(promptText);
     } else {
-      // Regular text message
-      messageContent.innerHTML = content.replace(/\n/g, '<br>');
+      messageContent.innerHTML = formatMarkdown(content);
     }
     
     const messageMeta = document.createElement('div');
@@ -542,7 +671,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const actionButtons = document.createElement('div');
       actionButtons.className = 'message-actions';
       
-      // Only show these buttons for text responses, not images
       if (!imageUrl) {
         const copyButton = document.createElement('button');
         copyButton.className = 'action-btn copy-btn';
@@ -591,25 +719,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     chatWindow.appendChild(messageDiv);
     
-    // Auto-scroll to show new message if user hasn't scrolled up
     if (shouldAutoScroll && !userHasScrolledUp) {
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
   }
 
-  // Improved image generation flow
   async function handleImageGeneration() {
-    const prompt = messageInput.value.trim().replace("កំពុងបង្កើតរូបភាព:", "").trim();
+    const prompt = messageInput.value.trim().replace("Generate image:", "").trim();
     if (!prompt) {
-      alert("សូមបញ្ចូលការពិពណ៌នាសម្រាប់រូបភាពបន្ទាប់ពី 'បង្កើតរូបភាព:'");
+      alert("សូមបញ្ចូលការពិពណ៌នាសម្រាប់រូបភាពបន្ទាប់ពី 'Generate image:'");
       return;
     }
     
-    // Add user message
     const timestamp = new Date().toISOString();
     addMessageToUI(`Generate image: ${prompt}`, 'user', timestamp);
     
-    // Save user message
     const userMessageData = {
       role: 'user',
       text: `Generate image: ${prompt}`,
@@ -619,11 +743,9 @@ document.addEventListener('DOMContentLoaded', function() {
     chats[currentChatId].messages.push(userMessageData);
     saveChats();
     
-    // Clear input
     messageInput.value = '';
     messageInput.style.height = 'auto';
     
-    // Generate image
     await generateImage(prompt);
   }
 
@@ -632,7 +754,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const timestamp = new Date().toISOString();
     const tempMessageId = 'temp-' + Date.now();
 
-    // Create temporary message container
     const tempMessageDiv = document.createElement('div');
     tempMessageDiv.id = tempMessageId;
     tempMessageDiv.className = 'message ai-message';
@@ -657,7 +778,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     chatWindow.appendChild(tempMessageDiv);
     
-    // Auto-scroll to show generating message
     if (shouldAutoScroll && !userHasScrolledUp) {
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
@@ -674,12 +794,7 @@ document.addEventListener('DOMContentLoaded', function() {
           positivePrompt: prompt,
           width: 1344,
           height: 896,
-          //896
-        //  1152 × 768 new
-          //512x512 before 
-        // kak model: "civitai:102438@133677",
           model: "rundiffusion:130@100",
-
           numberResults: 1
         }
       ];
@@ -696,10 +811,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const imageUrl = result?.data?.[0]?.imageURL;
 
       if (imageUrl) {
-        // Remove temp message
         document.getElementById(tempMessageId)?.remove();
         
-        // Create final message with image
         const imageMessage = {
           role: 'model',
           text: `រូបភាពដែលបានបង្កើតដោយផ្អែកលើ: "${prompt}"`,
@@ -707,7 +820,6 @@ document.addEventListener('DOMContentLoaded', function() {
           imageUrl: imageUrl
         };
         
-        // Add to chat history
         chats[currentChatId].messages.push({
           role: 'model',
           text: imageMessage.text,
@@ -722,7 +834,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         saveChats();
         
-        // Display in UI
         addMessageToUI(imageMessage.text, 'ai', imageMessage.timestamp, null, imageUrl);
       } else {
         throw new Error("បរាជ័យក្នុងការទទួលបាន  រូបភាព");
@@ -736,7 +847,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // UI Functions
   function updateActiveChatIndicator() {
     document.querySelectorAll('.chat-item').forEach(item => {
       item.classList.toggle('active', item.dataset.chatId === currentChatId);
@@ -748,7 +858,6 @@ document.addEventListener('DOMContentLoaded', function() {
     sendButton.disabled = true;
     sendButton.classList.add('disabled');
     
-    // Auto-scroll to show typing indicator
     if (shouldAutoScroll && !userHasScrolledUp) {
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
@@ -779,7 +888,6 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchAIResponse(lastUserMessage);
   }
 
-  // Sidebar Functions
   function toggleSidebar() {
     isSidebarOpen = !isSidebarOpen;
     sidebar.classList.toggle('visible', isSidebarOpen);
@@ -794,7 +902,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = '';
   }
 
-  // Helper Functions
   function generateChatId() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
@@ -861,9 +968,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 2000);
   }
 
-  // Track scroll behavior
   chatWindow.addEventListener('scroll', function() {
-    const threshold = 100; // pixels from bottom
+    const threshold = 100;
     const isNearBottom = chatWindow.scrollHeight - chatWindow.scrollTop - chatWindow.clientHeight <= threshold;
     
     if (!isNearBottom) {
@@ -874,7 +980,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Event Listeners
   menuToggle.addEventListener('click', toggleSidebar);
   closeSidebar.addEventListener('click', closeSidebarFn);
   sidebarOverlay.addEventListener('click', closeSidebarFn);
@@ -899,7 +1004,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   newChatBtn.addEventListener('click', createNewChat);
   
-  // Feature card click handlers
   featureCards.forEach(card => {
     card.addEventListener('click', function() {
       const prompt = this.getAttribute('data-prompt');
@@ -908,17 +1012,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Initial focus
   messageInput.focus();
   
-  // Responsive handling
   window.addEventListener('resize', function() {
     if (window.innerWidth > 768 && isSidebarOpen) {
       closeSidebarFn();
     }
   });
-
-  // Add the required CSS styles
+ // Add the required CSS styles
   const style = document.createElement('style');
   style.textContent = `
     /* Chat container improvements */
@@ -946,7 +1047,19 @@ document.addEventListener('DOMContentLoaded', function() {
       overflow-anchor: none;
     }
     
+    /* Improved input area layout */
+
     
+    .input-container {
+      display: flex;
+      align-items: center;
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 8px 12px;
+      border: 1px solid #e5e7eb;
+      gap: 8px;
+    }
+
     /* Improved button layout */
     .generate-image-btn {
       background: none;
@@ -967,29 +1080,7 @@ document.addEventListener('DOMContentLoaded', function() {
       color: #1f2937;
     }
     
-    .send-button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .send-button:hover {
-      background: #1d4ed8;
-    }
-    
-    .send-button.disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    
+
     /* Image preview modal */
     .image-preview-modal {
       display: none;
@@ -1195,7 +1286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   `;
   document.head.appendChild(style);
-
+  
   // Initialize the app
   initApp();
 });
