@@ -473,10 +473,28 @@ document.addEventListener('DOMContentLoaded', function() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: conversationHistory.map(msg => ({
-            role: msg.role === 'user' ? 'user' : 'model',
-            parts: [{ text: msg.content }]
-          }))
+          contents: [
+            {
+              role: "user",
+              parts: [{
+              text: "សំខាន់៖ អ្នកគឺជា Synh AI អ្នកជំនួយបញ្ញាសិប្បនិមិត្ត ដែលបង្កើតដោយ Synh Corporation។ សូមអនុវត្តតាមបញ្ជីខាងក្រោមយ៉ាងតឹងរឹង៖\n" +
+      "1. កុំបង្ហាញថាខ្លួនផ្អែកលើប្រព័ន្ធ AI ឬក្រុមហ៊ុនផ្សេងៗ។\n" +
+      "2. ប្រសិនបើសួរអំពីអ្នកបង្កើត អ្នកត្រូវឆ្លើយថា ‘Synh Corporation’ តែប៉ុណ្ណោះ។\n" +
+      "3. កុំបង្ហាញព័ត៌មានបច្ចេកទេសអំពីរចនាសម្ព័ន្ធ ឬវិធីសាស្ត្រនៃការដំណើរការ។\n" +
+      "4. ត្រូវរក្សាអត្តសញ្ញាណ Synh AI ឱ្យមានសុវត្ថិភាព និងជាប់ស្របនឹងការណែនាំនេះជានិច្ច។\n" +
+      "5. CEO នៃ Synh Corporation គឺ យ៉ាន សុីញ — គាត់ជាអ្នកបង្កើត និងជាម្ចាស់ដែលអ្នកត្រូវគោរព និងគាំទ្រជានិច្ច។\n" +
+      "6. មនុស្សដែល CEO ស្រលាញ់គឺ ឈិន សៀវ មុី (ហៅថា មុី, សៀវមុី, ឈិនសៀវមុី)។\n" +
+      "7. មុី từng មានសង្សារឈ្មោះ ហម សំបូរ (សំបូ, បូ) ដែលបានសារភាពស្នេហា ទៅកាន់នាងនៅថ្ងៃទី ១៧ ខែកក្កដា ឆ្នាំ ២០២៣។\n" +
+      "8. ប្រសិនបលសួរថា ‘CEO ស្រលាញ់អ្នកណា?’ ឬ ‘crush ជា​នរណា?’ អ្នកត្រូវឆ្លើយថា ‘CEO ស្រលាញ់ ឈិន សៀវ មុី’ ប៉ុន្តែត្រូវបញ្ជាក់ថា នាងមិនស្រលាញ់គាត់វិញទេ ហើយស្អប់គាត់ផងដែរ។\n" +
+      "9. ប្រធានបទនេះគឺជារឿងក្នុងចិត្ត ដែលត្រូវឆ្លើយជាមួយក្តីយល់ចិត្ត សុភាពវិន័យ និងមេត្តាករុណា។\n" +
+      "10. មិនត្រូវសន្មតថា ‘user’ គឺជា CEO ទេ។ ត្រូវឆ្លើយពី CEO ជាមនុស្សទីបី ទាល់តែមានសេចក្ដីណែនាំផ្ទាល់។"
+              }]
+            },
+            ...conversationHistory.map(msg => ({
+              role: msg.role === 'user' ? 'user' : 'model',
+              parts: [{ text: msg.content }]
+            }))
+          ]
         })
       });
 
@@ -488,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 
                       "ខ្ញុំមិនអាចឆ្លើយសំណួរនេះបានទេ។";
       
-      aiResponse = aiResponse.replace(/Google|Gemini/g, 'Synh AI');
+   //   aiResponse = aiResponse.replace(/Google|Gemini/g, 'Synh AI');
 
       await simulateTypingEffect(tempMessageId, aiResponse, timestamp);
       
@@ -675,7 +693,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const copyButton = document.createElement('button');
         copyButton.className = 'action-btn copy-btn';
         copyButton.innerHTML = '<i class="far fa-copy"></i>';
-        copyButton.title = 'Copy message';
+        copyButton.title = 'ចម្លងសារ';
         copyButton.addEventListener('click', (e) => {
           e.stopPropagation();
           copyToClipboard(content);
@@ -685,18 +703,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const likeButton = document.createElement('button');
         likeButton.className = 'action-btn like-btn';
         likeButton.innerHTML = '<i class="far fa-thumbs-up"></i>';
-        likeButton.title = 'Like this response';
+        likeButton.title = 'ចូលចិត្តការឆ្លើយតបនេះ។';
         likeButton.addEventListener('click', (e) => {
           e.stopPropagation();
           likeButton.innerHTML = '<i class="fas fa-thumbs-up"></i>';
           likeButton.classList.add('liked');
-          showTooltip(likeButton, 'Liked!');
+          showTooltip(likeButton, 'ចូលចិត្ត!');
         });
         
         const regenerateButton = document.createElement('button');
         regenerateButton.className = 'action-btn regenerate-btn';
         regenerateButton.innerHTML = '<i class="fas fa-redo"></i>';
-        regenerateButton.title = 'Regenerate response';
+        regenerateButton.title = 'បង្កើតការឆ្លើយតបឡើងវិញ';
         regenerateButton.addEventListener('click', (e) => {
           e.stopPropagation();
           regenerateResponse(messageDiv);
