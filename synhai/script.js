@@ -1323,7 +1323,7 @@ function handleAIResponse(aiResponseText) {
           YouTube
         </a>
         <a href="https://www.tiktok.com/@lim_cartoon" target="_blank" class="lim-link">
-          <img src="icon/tiktok.png" alt="TikTok" class="lim-icon">
+          <img src="mey/tiktok.png" alt="TikTok" class="lim-icon">
           TikTok <!--https://cdn-icons-png.flaticon.com/512/3046/3046122-->
         </a>
         <a href="https://www.facebook.com/LimCartoon168" target="_blank" class="lim-link">
