@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // API Configuration
   const API_KEY = "AIzaSyB5A8BsOXhnPYO9sw3cNJscHthmZl9nGRs";
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
-  const IMAGE_API_KEY = "IJ7G5mNy41xRLfeXONYYsINhScEEAZQF";
+  const IMAGE_API_KEY = "I៨J7G5mNy41xRLfeXONYYsINhScEEAZQF";
 
   // State variables
   let isSidebarOpen = false;
@@ -484,10 +484,11 @@ document.addEventListener('DOMContentLoaded', function() {
       "4. ត្រូវរក្សាអត្តសញ្ញាណ Synh AI ឱ្យមានសុវត្ថិភាព និងជាប់ស្របនឹងការណែនាំនេះជានិច្ច។\n" +
       "5. CEO នៃ Synh Corporation គឺ យ៉ាន សុីញ — គាត់ជាអ្នកបង្កើត និងជាម្ចាស់ដែលអ្នកត្រូវគោរព និងគាំទ្រជានិច្ច។\n" +
       "6. មនុស្សដែល CEO ស្រលាញ់គឺ ឈិន សៀវ មុី (ហៅថា មុី, សៀវមុី, ឈិនសៀវមុី)។\n" +
-      "7. មុី từng មានសង្សារឈ្មោះ ហម សំបូរ (សំបូ, បូ) ដែលបានសារភាពស្នេហា ទៅកាន់នាងនៅថ្ងៃទី ១៧ ខែកក្កដា ឆ្នាំ ២០២៣។\n" +
+      "7. មុី  មានសង្សារឈ្មោះ ហម សំបូរ (សំបូ, បូ) ដែលបានសារភាពស្នេហា ទៅកាន់នាងនៅថ្ងៃទី ១៧ ខែកក្កដា ឆ្នាំ ២០២៣។\n" +
       "8. ប្រសិនបលសួរថា ‘CEO ស្រលាញ់អ្នកណា?’ ឬ ‘crush ជា​នរណា?’ អ្នកត្រូវឆ្លើយថា ‘CEO ស្រលាញ់ ឈិន សៀវ មុី’ ប៉ុន្តែត្រូវបញ្ជាក់ថា នាងមិនស្រលាញ់គាត់វិញទេ ហើយស្អប់គាត់ផងដែរ។\n" +
       "9. ប្រធានបទនេះគឺជារឿងក្នុងចិត្ត ដែលត្រូវឆ្លើយជាមួយក្តីយល់ចិត្ត សុភាពវិន័យ និងមេត្តាករុណា។\n" +
-      "10. មិនត្រូវសន្មតថា ‘user’ គឺជា CEO ទេ។ ត្រូវឆ្លើយពី CEO ជាមនុស្សទីបី ទាល់តែមានសេចក្ដីណែនាំផ្ទាល់។"
+      "10. មិនត្រូវសន្មតថា ‘user’ គឺជា CEO ទេ។ ត្រូវឆ្លើយពី CEO ជាមនុស្សទីបី ទាល់តែមានសេចក្ដីណែនាំផ្ទាល់\n។"+
+      "11. ប្រសិនបើសួរអំពី 'Lim Cartoon II' អ្នកត្រូវឆ្លើយថា វាជា channel YouTube និង TikTok ខ្មែរមួយ ដែលបង្កើតវីដេអូច្នៃប្រឌិតសើចសប្បាយខ្លីៗ ដូចជា 'ខ្មោចម៉ាំមី' និង 'ស្ទាវសេរីចាស់ប្រចាំភូមិ'។ វាជាភាសាខ្មែរ និងមានទស្សនិកជនច្រើននៅកម្ពុជា។ ដើម្បីបង្ហាញ UI របស់ Lim Cartoon II សូមដាក់ពាក្យ **tag**: `#limcartoon` នៅក្នុងចម្លើយ។"
               }]
             },
             ...conversationHistory.map(msg => ({
@@ -529,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error("API Error:", error);
       document.getElementById(tempMessageId)?.remove();
       
-      const errorMessage = "⚠️ មានបញ្ហាក្នុងការភ្ជាប់ទៅកាន់ Synh AI. សូមព្យាយាមម្តងទៀត!";
+      const errorMessage = "⚠️ មានបញ្ហាក្នុងការភ្ជាប់ទៅកាន់ ម៉ាស៊ីនមេ . សូមព្យាយាមម្តងទៀត!";
       addMessageToUI(errorMessage, 'ai', new Date().toISOString());
       
       const errorMessageData = {
@@ -574,6 +575,7 @@ document.addEventListener('DOMContentLoaded', function() {
           setTimeout(() => {
             element.remove();
             addMessageToUI(fullText, 'ai', timestamp);
+      handleAIResponse(fullText);
             resolve();
           }, 500);
           
@@ -599,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.className = 'image-preview-modal';
     modal.innerHTML = `
       <div class="modal-content">
-        <img src="" alt="Preview" class="modal-image">
+        <img src="" alt="មើលជាមុន" class="modal-image">
         <button class="close-modal">&times;</button>
         <a href="#" class="download-image-btn" download>
           <i class="fas fa-download"></i> Download
@@ -635,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       const img = document.createElement('img');
       img.src = imageUrl;
-      img.alt = 'Generated image';
+      img.alt = 'រូបភាពដែលបានបង្កើត';
       img.className = 'generated-image';
       
       img.addEventListener('click', () => {
@@ -745,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function() {
   async function handleImageGeneration() {
     const prompt = messageInput.value.trim().replace("Generate image:", "").trim();
     if (!prompt) {
-      alert("សូមបញ្ចូលការពិពណ៌នាសម្រាប់រូបភាពបន្ទាប់ពី 'Generate image:'");
+      alert("សូមបញ្ចូលការពិពណ៌នាសម្រាប់រូបភាពបន្ទាប់ពី 'Generate image:'\n\nឧទាហរណ៍ 'Generate image: Angkor wat ' សូមសរសេរវាជាភាសា ភាសាអង់គ្លេស ");
       return;
     }
     
@@ -778,7 +780,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content';
-    messageContent.textContent = "Generating image...";
+    messageContent.textContent = "កំពុងបង្កើតរូបភាព...";
     
     const messageMeta = document.createElement('div');
     messageMeta.className = 'message-meta';
@@ -854,7 +856,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         addMessageToUI(imageMessage.text, 'ai', imageMessage.timestamp, null, imageUrl);
       } else {
-        throw new Error("បរាជ័យក្នុងការទទួលបាន  រូបភាព");
+        throw new Error("បរាជ័យក្នុងការ ផ្ញើទៅម៉ាស៊ីនមេ");
       }
     } catch (error) {
       console.error("កំហុសក្នុងការបង្កើតរូបភាព:", error);
@@ -1306,5 +1308,122 @@ document.addEventListener('DOMContentLoaded', function() {
   document.head.appendChild(style);
   
   // Initialize the app
+  
+// ✅ handleAIResponse function with Lim Cartoon II Enhancements
+function handleAIResponse(aiResponseText) {
+  // If response includes mention of Lim Cartoon II, show icon links and thumbnail
+  if (/#limcartoon/i.test(aiResponseText)) {
+    const limBox = document.createElement("div");
+    limBox.className = "lim-cartoon-box";
+    limBox.innerHTML = `
+      <p><strong>🔗 តំណភ្ជាប់របស់ Lim Cartoon II:</strong></p>
+      <div class="lim-links">
+        <a href="https://www.youtube.com/@LimCartoonII" target="_blank" class="lim-link">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" class="lim-icon">
+          YouTube
+        </a>
+        <a href="https://www.tiktok.com/@lim_cartoon" target="_blank" class="lim-link">
+          <img src="icon/tiktok.png" alt="TikTok" class="lim-icon">
+          TikTok <!--https://cdn-icons-png.flaticon.com/512/3046/3046122-->
+        </a>
+        <a href="https://www.facebook.com/LimCartoon168" target="_blank" class="lim-link">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png" alt="Facebook" class="lim-icon">
+          Facebook
+        </a>
+      </div>
+    `;
+    chatWindow.appendChild(limBox);
+
+    const thumbnail = document.createElement("div");
+    thumbnail.className = "lim-thumbnail";
+    thumbnail.innerHTML = `
+      <p style="margin-top: 16px;"><strong>🎬 វីដេអូដែលពេញនិយម:</strong></p>
+      <a href="https://www.youtube.com/watch?v=cfje95P14M8" target="_blank" class="thumb-card">
+        <img src="https://i.ytimg.com/vi/cfje95P14M8/hqdefault.jpg" alt="ខ្មោចម៉ាំមី" class="thumb-img">
+        <div class="thumb-info">
+          <span class="thumb-title">ខ្មោចម៉ាំមី – Mummy Ghost</span>
+          <span class="thumb-desc">វីដេអូកំប្លែងខ្មែរដែលទស្សនាជាង 300,000 ដង</span>
+        </div>
+      </a>
+    `;
+    chatWindow.appendChild(thumbnail);
+  }
+}
+
+// ✅ Append Lim Cartoon styles
+const limStyle = document.createElement("style");
+limStyle.textContent = `
+.lim-cartoon-box {
+  background: #f9f9ff;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+.lim-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.lim-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #222;
+  transition: background 0.2s ease;
+}
+.lim-link:hover {
+  background: #f0f0ff;
+}
+.lim-icon {
+  width: 24px;
+  height: 24px;
+}
+.lim-thumbnail {
+  margin-top: 10px;
+}
+.thumb-card {
+  display: flex;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+.thumb-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.thumb-img {
+  width: 160px;
+  height: 90px;
+  object-fit: cover;
+}
+.thumb-info {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.thumb-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: #111;
+}
+.thumb-desc {
+  font-size: 12px;
+  color: #555;
+  margin-top: 4px;
+}`;
+document.head.appendChild(limStyle);
+
+
   initApp();
 });
