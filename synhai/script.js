@@ -1427,3 +1427,9 @@ document.head.appendChild(limStyle);
 
   initApp();
 });
+
+// Force sidebar open on desktop
+if (window.innerWidth > 768) {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.add('visible');
+}
