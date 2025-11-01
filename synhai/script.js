@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // API Configuration
   //
   //AIzaSyDyickbhYiM8g_CRYH-wP_v_mfnTSIxH0I
-  const API_KEY = "AIzaSyC1Tjcb0jtqLvSsZGddBo1zyT3fCDAeSvc";
+  const API_KEY = "AIzaSyCDiS0zuOi1A6yxbyHKS0z13vNidWVHDVg";
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
   const IMAGE_API_KEY = "I៨J7G5mNy41xRLfeXONYYsINhScEEAZQF";
 
