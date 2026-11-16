@@ -44,7 +44,7 @@ BEHAVIOR:
   // Replace these demo image URLs with your own avatar image URLs anytime.
   avatars: {
     user: "solve.jpg",
-    assistant: "https://api.dicebear.com/9.x/bottts/svg?seed=SynhAI"
+    assistant: "synai.jpg"
   },
 
   maxHistoryMessages: 20,
