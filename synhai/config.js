@@ -43,7 +43,7 @@ BEHAVIOR:
 
   // Replace these demo image URLs with your own avatar image URLs anytime.
   avatars: {
-    user: "https://i.pravatar.cc/120?img=12",
+    user: "solve.jpg",
     assistant: "https://api.dicebear.com/9.x/bottts/svg?seed=SynhAI"
   },
 
