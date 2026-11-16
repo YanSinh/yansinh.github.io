@@ -1,137 +1,102 @@
-<!DOCTYPE html><html lang="km"><head>
+<!DOCTYPE html>
+<html lang="km">
+<head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Synh AI - ជំនាញវិភាគភាសាធម្មជាតិ</title>
-  <link rel="icon" href="https://yansinh.github.io/csm/img/sinh.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Synh AI — Khmer AI assistant">
+  <title>Synh AI</title>
+  <link rel="icon" href="https://yansinh.github.io/csm/img/sinh.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github.min.css">
   <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.6/purify.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <button class="new-chat-btn" id="new-chat-btn">
-        <i class="fas fa-plus"></i>
-        <span>ជជែកថ្មី</span>
-      </button>
-      <button class="close-sidebar" id="close-sidebar">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="chat-history" id="chat-history">
-      <!-- Chat history will be populated here -->
-    </div>
-    <div class="sidebar-footer">
-      <div class="user-profile">
-        <img src="../mey/profile.jpg" class="user-avatar" alt="mey">
-        <div class="user-info">
-          <div class="user-name">យ៉ាន ស៊ីញ</div>
-          <div class="user-email">Private Ai</div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Chat history">
+      <div class="sidebar-top">
+        <a class="brand" href="#" aria-label="Synh AI home">
+          <img src="synai.jpg" class="brand-mark"><i class="fa-solid fa-sparkles"></i></span>
+          <span>Synh <b>AI</b></span>
+        </a>
+        <button class="icon-button mobile-close" id="close-sidebar" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <button class="new-chat-btn" id="new-chat-btn"><i class="fa-solid fa-plus"></i> <span id="new-chat-text">ជជែកថ្មី</span></button>
+      <div class="history-heading">ការជជែកថ្មីៗ</div>
+      <div class="chat-history" id="chat-history"></div>
+      <div class="sidebar-bottom">
+        <div class="profile-avatar"><img id="profile-avatar-img" alt="User avatar"></div>
+        <div class="profile-copy"><strong>យ៉ាន ស៊ីញ</strong><span>Synh AI Assistant</span></div>
+        <span class="online-dot" title="Ready"></span>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menu-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+        <div class="topbar-title"><img src="synai.jpg" class="mini-mark"><i class="fa-solid fa-sparkles"></i></span><strong>Synh AI</strong><span class="topbar-subtitle">Khmer AI assistant</span></div>
+        <div class="connection" id="connection-status"><span class="status-dot"></span><span id="status-text">Ready</span></div>
+      </header>
+
+      <section class="chat-layout">
+        <div class="chat-window" id="chat-window" aria-live="polite">
+          <section class="welcome-message" id="welcome-message">
+            <div class="welcome-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <p class="eyebrow">WELCOME TO SYNH AI</p>
+            <h1>សួស្តី! តើខ្ញុំអាចជួយអ្វីអ្នកបាន?</h1>
+            <p class="welcome-description">សួរសំណួរ សរសេរ បកប្រែ ឬស្វែងយល់អំពីប្រធានបទថ្មីៗជាភាសាខ្មែរ។</p>
+            <div class="features-grid">
+              <button class="feature-card" data-prompt="ពន្យល់អំពីបញ្ញាសិប្បនិម្មិត (AI) ជាភាសាខ្មែរងាយយល់។"><span class="feature-icon blue"><i class="fa-regular fa-lightbulb"></i></span><strong>សំណួរទូទៅ</strong><small>ស្វែងយល់ពីប្រធានបទផ្សេងៗ</small></button>
+              <button class="feature-card" data-prompt="ជួយសរសេរអត្ថបទខ្លីអំពីបច្ចេកវិទ្យា AI នៅកម្ពុជា។"><span class="feature-icon purple"><i class="fa-regular fa-pen-to-square"></i></span><strong>ជំនួយការសរសេរ</strong><small>សរសេរ និងកែសម្រួលអត្ថបទ</small></button>
+              <button class="feature-card" data-prompt="បកប្រែឃ្លា 'Hello, how are you today?' ទៅជាភាសាខ្មែរ ហើយពន្យល់ពាក្យសំខាន់ៗ។"><span class="feature-icon green"><i class="fa-solid fa-language"></i></span><strong>ការបកប្រែ</strong><small>បកប្រែរវាងភាសាផ្សេងៗ</small></button>
+              <button class="feature-card" data-prompt="បង្កើតផែនការរៀន JavaScript សម្រាប់អ្នកចាប់ផ្តើមរយៈពេល ៧ ថ្ងៃ។"><span class="feature-icon orange"><i class="fa-solid fa-graduation-cap"></i></span><strong>រៀនអ្វីថ្មី</strong><small>រៀនជាជំហានៗ</small></button>
+            </div>
+          </section>
+          <div class="messages" id="messages"></div>
+          <div class="typing-indicator" id="typing-indicator" hidden><span></span><span></span><span></span><small>Synh AI កំពុងគិត...</small></div>
         </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
-  
-  <div class="main-content" id="main-content">
-    <div class="header">
-      <button class="menu-toggle" id="menu-toggle">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="logo">
-<!--<i class="fas fa-robot"></i>-->
-        <span>Synh AI</span>
-      </div>
-      <div class="status" id="connection-status">
-        <i class="fas fa-circle"></i>
-         <i class="fas fa-circle" style="color:yellow"></i>
-          <i class="fas fa-circle" style="color:red"></i>
-        <span style="color:#1f2937"></span>
-      </div>
-    </div>
-    
-    <div class="chat-container">
-      <div class="chat-window" id="chat-window">
-        <div class="welcome-message">
-          <h2>សូមស្វាគមន៍មកកាន់ Synh AI</h2>
-          <p>ខ្ញុំអាចជួយអ្នកដោះស្រាយបញ្ហា ឆ្លើយសំណួរ និងផ្តល់យោបល់ដល់អ្នក។</p>
-          
-          <div class="features-grid">
-            <div class="feature-card" data-prompt="តើខ្ញុំអាចប្រើប្រាស់ Synh AI ដើម្បីអ្វីខ្លះ?">
-              <div class="feature-icon">
-                <i class="fas fa-lightbulb"></i>
-              </div>
-              <h3>សំណួរទូទៅ</h3>
-              <p>សួររកព័ត៌មានទូទៅ ឬចម្លើយអំពីប្រធានបទផ្សេងៗ</p>
+
+        <footer class="composer-wrap">
+          <div class="attachment-preview" id="attachment-preview" hidden></div>
+          <form class="composer" id="chat-form">
+            <label class="attach-button" title="ភ្ជាប់ឯកសារ" aria-label="Attach file">
+              <i class="fa-solid fa-paperclip"></i>
+              <input type="file" id="file-input" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx">
+            </label>
+            <textarea id="message-input" rows="1" maxlength="12000" placeholder="សរសេរសាររបស់អ្នក..." aria-label="Message"></textarea>
+            <button class="send-button" id="send-button" type="submit" aria-label="Send message"><i class="fa-solid fa-arrow-up"></i></button>
+          </form>
+          <div class="bottom-settings" aria-label="Display settings">
+            <div class="setting-group">
+              <span class="setting-label" data-i18n="appearance">រូបរាង</span>
+              <button type="button" class="setting-button" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i><span id="theme-label">Light</span></button>
             </div>
-            
-            <div class="feature-card" data-prompt="សរសេរកថាខណ្ឌអំពីបច្ចេកវិទ្យា AI នៅកម្ពុជា">
-              <div class="feature-icon">
-                <i class="fas fa-edit"></i>
+            <div class="setting-group">
+              <span class="setting-label" data-i18n="language">ភាសា</span>
+              <div class="language-switch" role="group" aria-label="Language">
+                <button type="button" class="language-button active" data-language="km">KH</button>
+                <button type="button" class="language-button" data-language="en">EN</button>
               </div>
-              <h3>ជំនួយការសរសេរ</h3>
-              <p>ជួយសរសេរអត្ថបទ កំណត់ហេតុ ឬអក្សរសំណេរ</p>
-            </div>
-            
-            <div class="feature-card" data-prompt="បកប្រែឃ្លាខាងក្រោមពីអង់គ្លេសទៅភាសាខ្មែរ: 'Hello, how are you today?'">
-              <div class="feature-icon">
-                <i class="fas fa-language"></i>
-              </div>
-              <h3>ការបកប្រែភាសា</h3>
-              <p>បកប្រែអត្ថបទពីភាសាមួយទៅភាសាមួយទៀត</p>
-            </div>
-            
-            <div class="feature-card" data-prompt="ពន្យល់អំពី blockchain ជាភាសាខ្មែរសាមញ្ញ">
-              <div class="feature-icon">
-                <i class="fas fa-graduation-cap"></i>
-              </div>
-              <h3>ចំណេះដឹងថ្មី</h3>
-              <p>រៀនអំពីប្រធានបទថ្មីៗដោយសាមញ្ញ</p>
             </div>
           </div>
-        </div>
-      </div>
-      
-      <div class="typing-indicator" id="typing-indicator" style="display: none;">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <span>Synh AI កំពុងគិត...</span>
-      </div>
-    </div>
-    
-    <div class="input-area" id="input-area">
-      <div class="input-container">
-        <button class="attachment-button" id="attachment-button" title="ភ្ជាប់ឯកសារ">
-          <i class="fas fa-paperclip"></i>
-          <input type="file" class="file-input" id="file-input" accept="image/*,.pdf,.doc,.docx,.txt">
-        </button>
-        
-        <textarea class="message-input" id="message-input" placeholder="សរសេរសាររបស់អ្នកនៅទីនេះ..." rows="1"></textarea>
-        
-        <button class="send-button" id="send-button">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-      </div>
-    </div>
+          <p class="composer-note" data-i18n="disclaimer">Synh AI អាចមានកំហុស។ សូមពិនិត្យព័ត៌មានសំខាន់ៗឡើងវិញ។</p>
+        </footer>
+      </section>
+    </main>
   </div>
-
-  <!-- Blur background when message is selected -->
-  <div class="blur-background" id="blur-background"></div>
-  
-  <!-- Feedback modal for dislike -->
-  <div class="feedback-modal" id="feedback-modal">
-    <h3>អ្នកមិនចូលចិត្តចម្លើយនេះមែនទេ?</h3>
-    <p>សូមប្រាប់យើងពីមូលហេតុ ដើម្បីអាចកែលម្អសេវាកម្មរបស់យើង។</p>
-    <textarea class="feedback-textarea" id="feedback-textarea" placeholder="សូមបញ្ចូលមតិយោបល់របស់អ្នក..."></textarea>
-    <div class="feedback-buttons">
-      <button class="feedback-cancel" id="feedback-cancel">បោះបង់</button>
-      <button class="feedback-submit" id="feedback-submit">ដាក់ស្នើ</button>
-    </div>
-  </div>
-
-<script src="script.js"></script>
-
-
-</body></html>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
