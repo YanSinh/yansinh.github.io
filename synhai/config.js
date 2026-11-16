@@ -8,7 +8,7 @@ window.SYNH_CONFIG = {
   model: "gemini-3.5-flash",
 
   // Paste your active Gemini API key from Google AI Studio below:
-  apiKey: "AQ.Ab8RN6Lj48tkGk7FTUOynhmuxwIiVKbePWFiuRqdNSXtjvb49A",
+  apiKey: "AQ.Ab8RN6Lj48tkGk7FTUOynhmuxwIiVKbePWFiuRqdNSXtjvb4OA",
 
   // Valid Gemini REST API endpoint generator function
   getApiUrl: function() {
